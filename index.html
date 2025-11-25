@@ -134,6 +134,31 @@ body{display:flex;flex-direction:column;min-height:100vh;background:#111;color:#
   .menu-top{flex-wrap:wrap}
   .buscador input{width:90%}
 }
+/* HEADER DEL MENU */
+.menu-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+  }
+  
+  /* BOTON X */
+  .cerrar-menu{
+    font-size:20px;
+    background:none;
+    border:none;
+    color:white;
+    cursor:pointer;
+    padding:5px 10px;
+  }
+  
+  /* SOLO PARA MÓVIL */
+  @media (max-width:768px){
+    .cerrar-menu{
+      font-size:26px;
+    }
+  }
+  
 </style>
 </head>
 <body>
@@ -162,14 +187,20 @@ body{display:flex;flex-direction:column;min-height:100vh;background:#111;color:#
 </div>
 
 <!-- MENU LATERAL -->
+<!-- MENU LATERAL -->
 <div class="menu" id="menuLateral">
-  <h1>🔵 ELECTRÓNICA</h1>
-  <button onclick="mostrar('resistencias')">Resistencias</button>
-  <button onclick="mostrar('capacitores')">Capacitores</button>
-  <button onclick="mostrar('transistores')">Transistores</button>
-  <button onclick="mostrar('led')">Iluminación LED</button>
-  <button onclick="mostrar('instrumentos')">Instrumentos</button>
-</div>
+    <div class="menu-header">
+      <h1>🔵 ELECTRÓNICA</h1>
+      <button class="cerrar-menu" onclick="toggleMenu()">✖</button>
+    </div>
+  
+    <button onclick="mostrar('resistencias')">Resistencias</button>
+    <button onclick="mostrar('capacitores')">Capacitores</button>
+    <button onclick="mostrar('transistores')">Transistores</button>
+    <button onclick="mostrar('led')">Iluminación LED</button>
+    <button onclick="mostrar('instrumentos')">Instrumentos</button>
+  </div>
+  
 
 <!-- CONTENIDO -->
 <div class="contenido">
