@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tu tienda</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
+body{display:flex;flex-direction:column;min-height:100vh;background:#111;color:#fff;}
+
+/* BARRA SUPERIOR */
+.topbar{
+  width:100%;
+  background:#0a2c5a;
+  display:flex;
+  align-items:center;
+  padding:10px 15px;
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
+.logo-top img{height:45px;}
+
+.buscador{
+  flex:1;
+  text-align:center;
+}
+.buscador input{
+  width:70%;
+  padding:8px;
+  border-radius:5px;
+  border:none;
+}
+
+.menu-top{
+  display:flex;
+  gap:15px;
+  align-items:center;
+}
+.menu-top a,.dropbtn{
+  color:#fff;
+  text-decoration:none;
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-size:15px;
+}
+
+#sinResultados{
+  display:none;
+  margin-top:5px;
+  font-size:14px;
+  color:#ff5555;
+  text-align:center;
+}
+
+.clearSearch{
+  margin-left:5px;
+  background:#021731;
+  border:1px solid #0a4f8a;
+  color:white;
+  border-radius:50%;
+  width:30px;
+  height:30px;
+  cursor:pointer;
+}
+
+/* MENU LATERAL */
+.menu{
+  position:fixed;
+  left:-280px;
+  top:0;
+  height:100%;
+  width:260px;
+  background:#000;
+  padding:20px;
+  transition:.3s;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  z-index:999;
+}
+.menu h1{text-align:center;font-size:20px;}
+.menu button{
+  padding:10px;
+  background:#222;
+  border:none;
+  color:white;
+  cursor:pointer;
+  border-radius:5px;
+}
+
+/* CONTENIDO */
+.contenido{
+  flex:1;
+  padding:20px;
+}
+
+.seccion{
+  display:none;
+}
+.seccion.activa{
+  display:block;
+}
+
+/* GALERIA */
+.galeria{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:15px;
+}
+.producto{
+  background:#111;
+  padding:8px;
+  border-radius:8px;
+  text-align:center;
+}
+.producto img{
+  width:100%;
+  height:190px;
+  object-fit:cover;
+  border-radius:10px;
+}
+.producto p{margin-top:6px;font-size:14px}
+
+/* RESPONSIVE */
+@media (max-width:768px){
+  .menu{width:100%;}
+  .menu-top{flex-wrap:wrap}
+  .buscador input{width:90%}
+}
+</style>
+</head>
+<body>
+
+<!-- BARRA SUPERIOR -->
+<div class="topbar">
+  <div class="logo-top">
+    <img src="logo-generico.png">
+  </div>
+
+  <div class="buscador">
+    <input type="text" id="buscador" placeholder="Buscar productos..." onkeyup="buscarProductos()">
+    <button class="clearSearch" onclick="limpiarBusqueda()">✖</button>
+    <div id="sinResultados">No se encuentran productos</div>
+  </div>
+
+  <div class="menu-top">
+    <a href="#">Home</a>
+    <button onclick="toggleMenu()">Categoría de productos ☰</button>
+    <a href="#">Ofertas</a>
+    <a href="#">Novedades</a>
+    <a href="#">Empresa</a>
+    <a href="#">Destacados</a>
+    <a href="#">Contacto</a>
+  </div>
+</div>
+
+<!-- MENU LATERAL -->
+<div class="menu" id="menuLateral">
+  <h1>🔵 ELECTRÓNICA</h1>
+  <button onclick="mostrar('resistencias')">Resistencias</button>
+  <button onclick="mostrar('capacitores')">Capacitores</button>
+  <button onclick="mostrar('transistores')">Transistores</button>
+  <button onclick="mostrar('led')">Iluminación LED</button>
+  <button onclick="mostrar('instrumentos')">Instrumentos</button>
+</div>
+
+<!-- CONTENIDO -->
+<div class="contenido">
+
+<!-- RESISTENCIAS -->
+<div id="resistencias" class="seccion activa">
+<h2>Resistencias</h2>
+<div class="galeria">
+<div class="producto" data-nombre="Resistencia 220 ohm">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.16 PM.jpeg">
+<p>Resistencia 220 ohm</p>
+</div>
+</div>
+</div>
+
+<!-- CAPACITORES -->
+<div id="capacitores" class="seccion">
+<h2>Capacitores</h2>
+<div class="galeria">
+<div class="producto" data-nombre="Capacitor 100uF">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+<p>Capacitor 100uF</p>
+</div>
+</div>
+</div>
+
+<!-- TRANSISTORES -->
+<div id="transistores" class="seccion">
+<h2>Transistores</h2>
+<div class="galeria">
+<div class="producto" data-nombre="Transistor BC547">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM (1).jpeg">
+<p>Transistor BC547</p>
+</div>
+</div>
+</div>
+
+<!-- LED -->
+<div id="led" class="seccion">
+<h2>Iluminación LED</h2>
+<div class="galeria">
+<div class="producto" data-nombre="Led rojo 5mm">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM (2).jpeg">
+<p>Led rojo 5mm</p>
+</div>
+</div>
+</div>
+
+<!-- INSTRUMENTOS -->
+<div id="instrumentos" class="seccion">
+<h2>Instrumentos</h2>
+<div class="galeria">
+<div class="producto" data-nombre="Tester digital">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+<p>Tester digital</p>
+</div>
+</div>
+</div>
+
+</div>
+
+<script>
+function toggleMenu(){
+  const menu = document.getElementById("menuLateral");
+  menu.style.left = (menu.style.left === "0px") ? "-280px" : "0px";
+}
+
+function mostrar(id){
+  document.querySelectorAll(".seccion").forEach(s=>s.classList.remove("activa"));
+  document.getElementById(id).classList.add("activa");
+  toggleMenu();
+}
+
+function limpiarBusqueda(){
+  document.getElementById("buscador").value="";
+  document.getElementById("sinResultados").style.display="none";
+  document.querySelectorAll(".producto").forEach(p=>p.style.display="block");
+}
+
+function buscarProductos(){
+    const texto = document.getElementById("buscador").value.toLowerCase();
+    let encontrados = 0;
+  
+    // MOSTRAR TODAS las secciones mientras se busca
+    document.querySelectorAll(".seccion").forEach(sec => {
+      sec.style.display = "block";
+    });
+  
+    document.querySelectorAll(".producto").forEach(prod=>{
+      const nombre = prod.dataset.nombre.toLowerCase();
+  
+      if(nombre.includes(texto)){
+        prod.style.display = "block";
+        encontrados++;
+      } else {
+        prod.style.display = "none";
+      }
+    });
+  
+    if(encontrados === 0 && texto !== ""){
+      document.getElementById("sinResultados").style.display = "block";
+    } else {
+      document.getElementById("sinResultados").style.display = "none";
+    }
+  
+    // Si el buscador está vacío vuelve todo a la normalidad
+    if(texto === ""){
+      document.querySelectorAll(".producto").forEach(p=>{
+        p.style.display = "block";
+      });
+  
+      document.querySelectorAll(".seccion").forEach(sec=>{
+        sec.style.display = "none";
+      });
+  
+      document.querySelector(".seccion.activa").style.display = "block";
+    }
+  }
+</script>
+
+</body>
+</html>
