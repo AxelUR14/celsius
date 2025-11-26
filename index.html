@@ -395,6 +395,50 @@ body{background:#f2f4f7;color:#000;}
       padding: 6px 9px;
   }
 }
+/* === BARRA DE BOTONES PRINCIPALES === */
+.contenedor-botones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+/* Botones individuales */
+.contenedor-botones button,
+.contenedor-botones a {
+  background-color: #0a6ecb;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Ícono del botón */
+.contenedor-botones button i {
+  font-size: 18px;
+}
+
+/* === MISMO ORDEN EN CELULAR Y PC === */
+.contenedor-botones {
+  flex-direction: row; /* No cambia el orden */
+}
+
+.contenedor-botones * {
+  order: initial !important; /* Mantiene el orden original del HTML */
+}
+
+/* Para pantallas pequeñas: NO CAMBIA NADA */
+@media (max-width: 600px) {
+  .contenedor-botones {
+      justify-content: center;
+      gap: 12px; /* mismo espaciado que en PC */
+  }
+}
 
 </style>
 </head>
@@ -571,10 +615,7 @@ body{background:#f2f4f7;color:#000;}
 
   </div>
 <!-- BOTÓN CATEGORÍAS DE PRODUCTOS -->
-<div class="boton-categorias" onclick="mostrarCategorias()">
-  <div class="icono-cat">☰</div>
-  <div class="texto-cat">Categorías de <br> Productos</div>
-</div>
+
 
 </div>
 
