@@ -439,7 +439,124 @@ body{background:#f2f4f7;color:#000;}
       gap: 12px; /* mismo espaciado que en PC */
   }
 }
+/* ====== MODO MÓVIL EF COMPONENTES ====== */
+@media(max-width:768px){
 
+  /* TOPBAR: estructura EF */
+  .topbar{
+      flex-direction: column;
+      padding: 12px 10px;
+      gap: 10px;
+  }
+  
+  /* logo centrado, más grande */
+  .logo-top{
+      width: 100%;
+      text-align: center;
+  }
+  .logo-top img{
+      height: 65px;
+      margin-bottom: 5px;
+  }
+  
+  /* BUSCADOR idéntico EF */
+  .search-box{
+      order: 3;
+      width: 100%;
+      margin: 0;
+      padding: 0 8px;
+  }
+  .search-box input{
+      width: 100%;
+      padding: 12px;
+      font-size: 17px;
+      border-radius: 8px 0 0 8px;
+  }
+  .btn-search{
+      font-size: 18px;
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+  }
+  
+  /* teléfono centrado */
+  .telefono-box{
+      width: 100%;
+      justify-content: center;
+      margin-top: -5px;
+      font-size: 17px;
+  }
+  
+  /* MENÚ SECUNDARIO EF */
+  .menu-top-bar{
+      flex-wrap: wrap;
+      padding: 10px 5px;
+      gap: 10px;
+  }
+  .menu-top-bar button{
+      flex: 1 0 45%;
+      padding: 12px;
+      font-size: 16px;
+  }
+  
+  /* MENÚ LATERAL EF */
+  .menu{
+      width: 85%;
+      padding: 15px;
+      background: #111;
+  }
+  .menu button{
+      font-size: 17px;
+      padding: 14px 10px;
+  }
+  
+  /* SLIDER EF móviles */
+  .slider-contenedor{
+      max-width: 100%;
+      aspect-ratio: 4/3;
+      margin-top: 5px;
+      border-radius: 12px;
+  }
+  .slide img{
+      object-fit: contain;
+  }
+  
+  /* BOTÓN CATEGORÍAS tipo EF */
+  .boton-categorias{
+      padding: 12px 10px;
+      font-size: 15px;
+  }
+  .icono-cat{
+      font-size: 18px;
+      padding: 6px 8px;
+  }
+  
+  /* GRID DE PRODUCTOS EF */
+  .galeria{
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+  }
+  .producto{
+      border-radius: 12px;
+      padding: 10px;
+  }
+  .producto img{
+      height: 130px;
+      border-radius: 8px;
+  }
+  
+  /* Secciones OFERTAS / NOVEDADES estilo EF */
+  .seccion-extra h2{
+      background: #059bf1;
+      color: white;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 20px;
+  }
+  
+  }
+  
 </style>
 </head>
 <body>
@@ -461,7 +578,7 @@ body{background:#f2f4f7;color:#000;}
   <!-- TELÉFONO -->
   <div class="telefono-box">
       <span class="icono-tel">📞</span>
-      <span class="telefono-num">4244-4927</span>
+      <span class="telefono-num">351 203-0466</span>
   </div>
 </div>
 
