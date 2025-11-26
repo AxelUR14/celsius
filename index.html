@@ -7,482 +7,693 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
-body{display:flex;flex-direction:column;min-height:100vh;background:#111;color:#fff;}
+body{background:#f2f4f7;color:#000;}
 
-/* BARRA SUPERIOR */
+/* ------------------------- */
+/* TOP BAR ESTILO EF         */
+/* ------------------------- */
 .topbar{
   width:100%;
-  background:#0a2c5a;
+  background:#059bf1;
+  padding:10px 20px;
   display:flex;
   align-items:center;
-  padding:10px 15px;
   justify-content:space-between;
   flex-wrap:wrap;
 }
-.logo-top img{height:45px;}
 
-.buscador{
+.logo-top img{
+  height:45px;
+  border-radius:0 !important; /* elimina esquinas redondeadas */
+  box-shadow:none !important;
+  border:none !important;
+}
+
+/* buscador estilo EF */
+.search-box{
   flex:1;
-  text-align:center;
-}
-.buscador input{
-  width:70%;
-  padding:8px;
-  border-radius:5px;
-  border:none;
+  max-width:600px;
+  display:flex;
+  justify-content:center;
+  margin:5px 0;
 }
 
+.search-box input{
+  width:80%;
+  padding:10px;
+  border-radius:5px 0 0 5px;
+  border:none;
+  outline:none;
+}
+
+.search-box button{
+  padding:10px 18px;
+  background:#0cafe3;
+  border:none;
+  color:white;
+  border-radius:0 5px 5px 0;
+  cursor:pointer;
+  font-size:16px;
+}
+
+#sinResultados{
+  width:100%;
+  text-align:center;
+  color:#d20000;
+  margin-top:5px;
+}
+
+/* menú superior estilo EF */
 .menu-top{
   display:flex;
-  gap:15px;
-  align-items:center;
+  gap:12px;
 }
-.menu-top a,.dropbtn{
-  color:white;
-  text-decoration:none;
+.menu-top button{
   background:none;
   border:none;
+  color:white;
   cursor:pointer;
   font-size:15px;
 }
 
-#sinResultados{
-  display:none;
-  margin-top:5px;
-  font-size:14px;
-  color:#ff5555;
-  text-align:center;
-}
-
-.clearSearch{
-  margin-left:5px;
-  background:#021731;
-  border:1px solid #0a4f8a;
-  color:white;
-  border-radius:50%;
-  width:30px;
-  height:30px;
-  cursor:pointer;
-}
-
-/* MENU LATERAL */
+/* ------------------------- */
+/* MENÚ LATERAL EF           */
+/* ------------------------- */
 .menu{
   position:fixed;
-  top:0;
   left:0;
-  height:100%;
+  top:0;
   width:260px;
-  background:#000;
-  padding:20px;
-  transition:.3s;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  z-index:999;
+  height:100%;
+  background:#111;
+  color:white;
+  padding:10px 15px;
   transform:translateX(-100%);
+  transition:0.3s;
+  overflow-y:auto;
+  z-index:999;
 }
+
 .menu.abierto{
   transform:translateX(0);
 }
 
-.menu h1{text-align:center;font-size:20px;}
-.menu button{
-  padding:10px;
-  background:#222;
-  border:none;
-  color:white;
-  cursor:pointer;
-  border-radius:5px;
+.menu-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
 }
 
-/* CONTENIDO */
+.menu-header h1{
+  color:#059bf1;
+  font-size:20px;
+}
+
+.cerrar-menu{
+  font-size:22px;
+  background:none;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+
+.menu button{
+  width:100%;
+  background:#1a1a1a;
+  margin:5px 0;
+  padding:10px;
+  border:none;
+  color:white;
+  border-radius:5px;
+  cursor:pointer;
+  text-align:left;
+}
+
+/* ------------------------- */
+/* CONTENIDO DE PRODUCTOS    */
+/* ------------------------- */
 .contenido{
-  flex:1;
   padding:20px;
 }
 
-.seccion{
+/* estilo cajas como EF */
+.galeria{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:20px;
+}
+
+.producto{
+  background:white;
+  border-radius:10px;
+  padding:10px;
+  box-shadow:0 0 5px rgba(0,0,0,0.2);
+  text-align:center;
+}
+
+.producto img{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+.producto p{
+  margin-top:8px;
+  font-weight:bold;
+}
+
+/* ------------------------- */
+/* SECCIONES ADICIONALES     */
+/* ------------------------- */
+.seccion,
+.seccion-extra{
   display:none;
 }
+
 .seccion.activa{
   display:block;
 }
 
-/* GALERIA */
-.galeria{
-  display:grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columnas en PC */
-  gap:15px;
+/* ------------------------- */
+/* RESPONSIVE                */
+/* ------------------------- */
+@media(max-width:768px){
+  .search-box input{width:70%;}
+  .menu{width:80%;}
+  .galeria{grid-template-columns:repeat(2,1fr);}
 }
-.producto{
-  background:#111;
-  padding:8px;
-  border-radius:8px;
-  text-align:center;
-}
-.producto img{
+/* TOP BAR ESTILO EF MEJORADO */
+.topbar{
   width:100%;
-  height:190px;
-  object-fit:cover;
-  border-radius:10px;
+  background:#059bf1;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 20px;
+  flex-wrap:wrap;
 }
-.producto p{margin-top:6px;font-size:14px}
+
+/* LOGO SIN ESQUINAS */
+.logo-top img{
+  height:50px;
+  border-radius:0 !important;
+}
+
+/* BUSCADOR */
+.search-box{
+  flex:1;
+  max-width:550px;
+  display:flex;
+  margin:10px 20px;
+}
+
+.search-box input{
+  flex:1;
+  padding:10px;
+  font-size:15px;
+  border:none;
+  border-radius:5px 0 0 5px;
+}
+
+.btn-search{
+  padding:10px 15px;
+  background:#003b63;
+  color:white;
+  border:none;
+  border-radius:0 5px 5px 0;
+  cursor:pointer;
+}
+
+/* TELÉFONO */
+.telefono-box{
+  display:flex;
+  align-items:center;
+  background:#003b63;
+  padding:8px 12px;
+  border-radius:5px;
+  color:white;
+  font-size:16px;
+}
+
+.icono-tel{
+  margin-right:6px;
+}
+
+/* MENÚ SECUNDARIO (HOME - OFERTAS - ETC) */
+.menu-top-bar{
+  width:100%;
+  background:#021f33;
+  padding:10px 15px;
+  display:flex;
+  gap:15px;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.menu-top-bar button{
+  background:#059bf1;
+  border:none;
+  padding:8px 14px;
+  border-radius:4px;
+  color:white;
+  cursor:pointer;
+  font-size:15px;
+}
+
+.menu-top-bar button:hover{
+  background:#007ac4;
+}
 
 /* RESPONSIVE */
-@media (max-width:768px){
-  .menu{width:80%;max-width:260px;}
-  .menu-top{flex-wrap:wrap}
-  .buscador input{width:90%}
-  .galeria{
-    grid-template-columns: repeat(2, 1fr); /* 2 columnas en móvil */
+@media(max-width:768px){
+  .telefono-box{
+      margin-top:10px;
+      width:100%;
+      justify-content:center;
+  }
+
+  .search-box{
+      order:3;
+      width:100%;
+  }
+
+  .logo-top{
+      width:100%;
+      text-align:center;
   }
 }
-/* HEADER DEL MENU */
-.menu-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
+/* ------ SLIDER ESTILO EF ------ */
+
+/* ------ SLIDER ESTILO LIGERO Y RESPONSIVO ------ */
+
+.slider-contenedor{
+  width:100%;
+  max-width:900px;
+  aspect-ratio: 16/9;        /* Mantiene proporción perfecta en móvil */
+  margin:20px auto;
+  position:relative;
+  overflow:hidden;
+  border-radius:12px;
+}
+
+.slide{
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0;
+  left:0;
+  opacity:0;
+  transition:opacity 0.6s ease;
+}
+
+.slide.activo{
+  opacity:1;
+}
+
+/* IMAGEN SIN ZOOM NI FONDO NEGRO */
+.slide img{
+  width:100%;
+  height:100%;
+  object-fit:contain;        /* Se ve completa */
+  background:transparent;    /* Sin fondo extra */
+}
+
+/* puntos inferiores */
+.puntos{
+  position:absolute;
+  bottom:10px;
+  width:100%;
+  text-align:center;
+}
+
+.punto{
+  display:inline-block;
+  width:10px;
+  height:10px;
+  margin:3px;
+  background:white;
+  opacity:0.5;
+  border-radius:50%;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.punto.activo{
+  opacity:1;
+  transform:scale(1.15);
+}
+
+/* --- Vista móvil más compacta --- */
+@media (max-width:600px){
+  .slider-contenedor{
+    border-radius:8px;
+    margin-top:10px;
+    aspect-ratio: 4/3;        /* Se adapta mejor a pantallas altas */
   }
-  
-  /* BOTON X */
-  .cerrar-menu{
-    font-size:20px;
-    background:none;
-    border:none;
-    color:white;
-    cursor:pointer;
-    padding:5px 10px;
+}
+
+/* BOTÓN CATEGORÍAS COMO EF COMPONENTES */
+.boton-categorias{
+  width: 100%;
+  background: #00b7e7;
+  color: white;
+  padding: 15px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.icono-cat{
+  background: white;
+  color: #00b7e7;
+  font-size: 22px;
+  font-weight: bold;
+  padding: 6px 10px;
+  border-radius: 5px;
+}
+
+.texto-cat{
+  line-height: 18px;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+  .boton-categorias{
+      font-size: 16px;
+      padding: 14px 12px;
   }
-  
-  /* SOLO PARA MÓVIL */
-  @media (max-width:768px){
-    .cerrar-menu{
-      font-size:26px;
-    }
+  .icono-cat{
+      font-size: 20px;
+      padding: 6px 9px;
   }
-  .seccion-extra {
-    display: none;
-    margin-top: 20px;
-    padding: 15px;
-    background: #111;
-    border-radius: 8px;
-  }
-  
+}
+
 </style>
 </head>
 <body>
-
-<!-- BARRA SUPERIOR -->
+<!-- TOP BAR -->
+<!-- TOP BAR NUEVA ESTILO EF -->
 <div class="topbar">
+    
+  <!-- LOGO -->
   <div class="logo-top">
-    <img src="logo.jpeg">
+      <img src="logo.jpeg">
   </div>
 
-  <div class="buscador">
-    <input type="text" id="buscador" placeholder="Buscar productos..." onkeyup="buscarProductos()">
-   <!--<button class="clearSearch" onclick="limpiarBusqueda()"></button>-->
-    <div id="sinResultados">No se encuentran productos</div>
+  <!-- BUSCADOR PRINCIPAL -->
+  <div class="search-box">
+      <input type="text" id="buscador" placeholder="Buscar productos..." onkeyup="buscarProductos()">
+      <button class="btn-search">🔍</button>
   </div>
 
-  <div class="menu-top">
-    <a href="#"></a>
-    <button onclick="toggleMenu()">Categoría de productos ☰</button>
-    <button onclick="mostrarSeccionExtra('home')">Home</button>
-<button onclick="mostrarSeccionExtra('ofertas')">Ofertas</button>
-<button onclick="mostrarSeccionExtra('novedades')">Novedades</button>
-<!--<button onclick="mostrarSeccionExtra('empresa')">Empresa</button>-->
-<button onclick="mostrarSeccionExtra('destacados')">Destacados</button>
-<button onclick="mostrarSeccionExtra('contacto')">Contacto</button>
-
+  <!-- TELÉFONO -->
+  <div class="telefono-box">
+      <span class="icono-tel">📞</span>
+      <span class="telefono-num">4244-4927</span>
   </div>
 </div>
 
-<!-- MENU LATERAL -->
+<!-- MENU SECUNDARIO (debajo del buscador) -->
+<div class="menu-top-bar">
+  <button onclick="toggleMenu()">☰ Categorías</button>
+  <button onclick="mostrarSeccionExtra('home')">Home</button>
+  <button onclick="mostrarSeccionExtra('ofertas')">Ofertas</button>
+  <button onclick="mostrarSeccionExtra('novedades')">Novedades</button>
+  <button onclick="mostrarSeccionExtra('destacados')">Destacados</button>
+  <button onclick="mostrarSeccionExtra('contacto')">Contacto</button>
+</div>
+
+
+<!-- MENÚ LATERAL -->
 <div class="menu" id="menuLateral">
-    <div class="menu-header">
-      <h1>🔵 ELECTRÓNICA</h1>
-      <button class="cerrar-menu" onclick="toggleMenu()">✖</button>
-    </div>
-  
-    <button onclick="mostrar('Audio')">Audio</button>
-    <button onclick="mostrar('Electricidad')">Electricidad</button>
-    <button onclick="mostrar('Iluminacion')">Iluminación</button>
-    <button onclick="mostrar('Instrumental')">Instrumental</button>
-    <button onclick="mostrar('Seguridad')">Seguridad</button>
+  <div class="menu-header">
+    <h1>Electrónica</h1>
+    <button class="cerrar-menu" onclick="toggleMenu()">✖</button>
   </div>
-  
+
+  <button onclick="mostrar('Audio')">Audio</button>
+  <button onclick="mostrar('Electricidad')">Electricidad</button>
+  <button onclick="mostrar('Iluminacion')">Iluminación</button>
+  <button onclick="mostrar('Instrumental')">Instrumental</button>
+  <button onclick="mostrar('Seguridad')">Seguridad</button>
+</div>
 
 <!-- CONTENIDO -->
 <div class="contenido">
 
 <!-- AUDIO -->
 <div id="Audio" class="seccion">
-<h2>Audio</h2>
-<div class="galeria">
-<div class="producto" data-nombre="Resistencia 220 ohm">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.16 PM.jpeg">
-<p>Producto1</p>
-</div>
-<div class="producto" data-nombre="Resistencia 220 ohm">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.16 PM.jpeg">
-<p>Producto2</p>
-</div>
-<div class="producto" data-nombre="Resistencia 220 ohm">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.16 PM.jpeg">
-<p>Producto3</p>
-</div>
-<div class="producto" data-nombre="Resistencia 220 ohm">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.16 PM.jpeg">
-<p>Producto4</p>
-</div>
-</div>
+  <h2>Audio</h2>
+  <div class="galeria">
+    <div class="producto" data-nombre="Parlante">
+      <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.16 PM.jpeg">
+      <p>Parlante</p>
+    </div>
+    <div class="producto" data-nombre="Auriculares">
+      <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.16 PM.jpeg">
+      <p>Auriculares</p>
+    </div>
+    <div class="producto" data-nombre="Micrófono">
+      <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.16 PM.jpeg">
+      <p>Micrófono</p>
+    </div>
+    <div class="producto" data-nombre="Consola de Audio">
+      <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.16 PM.jpeg">
+      <p>Consola</p>
+    </div>
+  </div>
 </div>
 
 <!-- ELECTRICIDAD -->
 <div id="Electricidad" class="seccion">
-<h2>Electricidad</h2>
-<div class="galeria">
-<div class="producto" data-nombre="Capacitor 100uF">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
-<p>Producto 1</p>
-</div>
-<div class="producto" data-nombre="Capacitor 100uF">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
-<p>Producto 2</p>
-</div>
-<div class="producto" data-nombre="Capacitor 100uF">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
-<p>Producto 3</p>
-</div>
-<div class="producto" data-nombre="Capacitor 100uF">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
-<p>Producto 4</p>
-</div>
-</div>
+  <h2>Electricidad</h2>
+  <div class="galeria">
+    <div class="producto" data-nombre="Cable 1mm">
+      <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+      <p>Cable 1mm</p>
+    </div>
+    <div class="producto" data-nombre="Cable 2mm">
+      <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+      <p>Cable 2mm</p>
+    </div>
+    <div class="producto" data-nombre="Regleta eléctrica">
+      <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+      <p>Regleta</p>
+    </div>
+    <div class="producto" data-nombre="Toma corriente">
+      <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+      <p>Toma corriente</p>
+    </div>
+  </div>
 </div>
 
 <!-- ILUMINACION -->
 <div id="Iluminacion" class="seccion">
-<h2>Iluminacion</h2>
-<div class="galeria">
-<div class="producto" data-nombre="Transistor BC547">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM (1).jpeg">
-<p>Producto 1</p>
-</div>
-<div class="producto" data-nombre="Capacitor 100uF">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
-<p>Producto 2</p>
-</div>
-<div class="producto" data-nombre="Capacitor 100uF">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
-<p>Producto 3</p>
-</div>
-<div class="producto" data-nombre="Capacitor 100uF">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
-<p>Producto 4</p>
-</div>
-</div>
+  <h2>Iluminación</h2>
+  <div class="galeria">
+    <div class="producto" data-nombre="Lampara LED">
+      <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM (1).jpeg">
+      <p>Lámpara LED</p>
+    </div>
+    <div class="producto" data-nombre="Reflector LED">
+      <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+      <p>Reflector</p>
+    </div>
+    <div class="producto" data-nombre="Guirnalda LED">
+      <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+      <p>Guirnalda</p>
+    </div>
+  </div>
 </div>
 
 <!-- SEGURIDAD -->
 <div id="Seguridad" class="seccion">
-<h2>Seguridad</h2>
-<div class="galeria">
-<div class="producto" data-nombre="Led rojo 5mm">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM (2).jpeg">
-<p>Producto 1</p>
-</div>
-<div class="producto" data-nombre="Capacitor 100uF">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
-<p>Producto 2</p>
-</div>
-<div class="producto" data-nombre="Capacitor 100uF">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
-<p>Producto 3</p>
-</div>
-<div class="producto" data-nombre="Capacitor 100uF">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
-<p>Producto 4</p>
-</div>
-</div>
+  <h2>Seguridad</h2>
+  <div class="galeria">
+    <div class="producto" data-nombre="Cámara seguridad">
+      <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM (2).jpeg">
+      <p>Cámara</p>
+    </div>
+    <div class="producto" data-nombre="Alarma">
+      <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+      <p>Alarma</p>
+    </div>
+  </div>
 </div>
 
 <!-- INSTRUMENTAL -->
 <div id="Instrumental" class="seccion">
-<h2>Instrumentos</h2>
-<div class="galeria">
-<div class="producto" data-nombre="Tester digital">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
-<p>Producto 1</p>
-</div>
-<div class="producto" data-nombre="Capacitor 100uF">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
-<p>Producto 2</p>
-</div>
-<div class="producto" data-nombre="Capacitor 100uF">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
-<p>Producto 3</p>
-</div>
-<div class="producto" data-nombre="Capacitor 100uF">
-<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
-<p>Producto 4</p>
-</div>
-</div>
+  <h2>Instrumental</h2>
+  <div class="galeria">
+    <div class="producto" data-nombre="Tester digital">
+      <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+      <p>Tester</p>
+    </div>
+    <div class="producto" data-nombre="Pinza Amperométrica">
+      <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+      <p>Pinza</p>
+    </div>
+  </div>
 </div>
 
 <!-- HOME -->
 <div id="home" class="seccion-extra">
-  <!--<h2>Bienvenido a Celsius</h2>-->
-  <p></p>
-  <img src="logo.jpeg" style="max-width:300px;width:100%;border-radius:8px;">
+
+  <!-- SLIDER -->
+  <div class="slider-contenedor">
+
+      <div class="slide activo">
+        <img src="video inicio/pinza amperometrica.jpeg">
+      </div>
+
+      <div class="slide">
+        <img src="video inicio/tester digital.jpeg">
+      </div>
+
+      <div class="slide">
+        <img src="video inicio/crimpeadora.jpeg">
+      </div>
+
+      <!-- CÍRCULOS -->
+      <div class="puntos">
+        <span class="punto activo" onclick="cambiarSlide(0)"></span>
+        <span class="punto" onclick="cambiarSlide(1)"></span>
+        <span class="punto" onclick="cambiarSlide(2)"></span>
+      </div>
+
+  </div>
+<!-- BOTÓN CATEGORÍAS DE PRODUCTOS -->
+<div class="boton-categorias" onclick="mostrarCategorias()">
+  <div class="icono-cat">☰</div>
+  <div class="texto-cat">Categorías de <br> Productos</div>
 </div>
+
+</div>
+
 
 <!-- OFERTAS -->
 <div id="ofertas" class="seccion-extra">
   <h2>Ofertas</h2>
-  <p></p>
+  <p>No hay ofertas disponibles por ahora.</p>
 </div>
 
 <!-- NOVEDADES -->
 <div id="novedades" class="seccion-extra">
   <h2>Novedades</h2>
-  <p></p>
-</div>
-
-<!-- EMPRESA -->
-<div id="empresa" class="seccion-extra">
-  <h2>Sobre Nosotros</h2>
-  <p></p>
+  <p>Aquí aparecerán novedades futuras.</p>
 </div>
 
 <!-- DESTACADOS -->
 <div id="destacados" class="seccion-extra">
-  <h2>Productos Destacados</h2>
-  <p>Podés mostrar tus mejores productos.</p>
+  <h2>Destacados</h2>
+  <p>Productos más seleccionados.</p>
 </div>
 
 <!-- CONTACTO -->
 <div id="contacto" class="seccion-extra">
   <h2>Contacto</h2>
-  <p>WhatsApp: +54...</p>
-  <p>Email: tucorreo@correo.com</p>
+  <p>WhatsApp: +54 ...</p>
+  <p>Email: correo@correo.com</p>
 </div>
 
-</div>
-
+</div> <!-- cierre contenido -->
 <script>
-
+  window.addEventListener("load", () => {
+    mostrarSeccionExtra("home");
+  });
   
-
-    window.addEventListener("load", () => {
-      document.getElementById("menuLateral").classList.remove("abierto");
-    
-      // Mostrar Home por defecto al iniciar
-      const home = document.getElementById("home");
-      if(home){
-        home.style.display = "block";
+  /* ABRIR / CERRAR MENÚ */
+  function toggleMenu(){
+    document.getElementById("menuLateral").classList.toggle("abierto");
+  }
+  
+  /* MOSTRAR CATEGORÍAS DEL MENÚ LATERAL */
+  function mostrar(id){
+    document.querySelectorAll(".seccion").forEach(s => s.style.display="none");
+    document.querySelectorAll(".seccion-extra").forEach(s => s.style.display="none");
+  
+    const sec = document.getElementById(id);
+    sec.style.display="block";
+  
+    // cierre automático en móvil
+    if(window.innerWidth < 768){
+      toggleMenu();
+    }
+  }
+  
+  /* MOSTRAR SECCIONES TOP (HOME, OFERTAS, ETC) */
+  function mostrarSeccionExtra(id){
+    document.querySelectorAll(".seccion").forEach(s => s.style.display="none");
+    document.querySelectorAll(".seccion-extra").forEach(s => s.style.display="none");
+  
+    document.getElementById(id).style.display="block";
+  }
+  
+  /* BUSCADOR */
+  function buscarProductos(){
+    const texto = document.getElementById("buscador").value.toLowerCase();
+    let encontrados = 0;
+  
+    document.querySelectorAll(".seccion").forEach(sec => sec.style.display="block");
+  
+    document.querySelectorAll(".producto").forEach(prod=>{
+      const nombre = prod.dataset.nombre.toLowerCase();
+  
+      if(nombre.includes(texto)){
+        prod.style.display="block";
+        encontrados++;
+      } else {
+        prod.style.display="none";
       }
     });
-    
-    function toggleMenu(){
-      const menu = document.getElementById("menuLateral");
-      menu.classList.toggle("abierto");
+  
+    const mensaje = document.getElementById("sinResultados");
+    mensaje.innerText = "";
+  
+    if(encontrados === 0 && texto !== ""){
+      mensaje.innerText = "No se encuentran productos";
     }
-    
-    function mostrar(id){
-    
-      // Oculta todas las secciones de productos
-      document.querySelectorAll(".seccion").forEach(sec=>{
-        sec.style.display = "none";
-        sec.classList.remove("activa");
-      });
-    
-      // Oculta todas las secciones extras (home, ofertas etc)
-      document.querySelectorAll(".seccion-extra").forEach(sec=>{
-        sec.style.display = "none";
-      });
-    
-      // Muestra la sección tocada
-      const seccion = document.getElementById(id);
-      if(seccion){
-        seccion.style.display = "block";
-        seccion.classList.add("activa");
-        seccion.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    
-      // Cierra el menú lateral en móvil
-      if(window.innerWidth < 768){
-        document.getElementById("menuLateral").classList.remove("abierto");
-      }
+  
+    if(texto === ""){
+      document.querySelectorAll(".producto").forEach(p => p.style.display="block");
+      document.querySelectorAll(".seccion").forEach(sec=>sec.style.display="none");
+      mostrarSeccionExtra("home");
     }
-    
-    function limpiarBusqueda(){
-      document.getElementById("buscador").value="";
-      document.getElementById("sinResultados").style.display="none";
-      document.querySelectorAll(".producto").forEach(p=>p.style.display="block");
-    }
-    
-    function buscarProductos(){
-        const texto = document.getElementById("buscador").value.toLowerCase();
-        let encontrados = 0;
-      
-        document.querySelectorAll(".seccion").forEach(sec => {
-          sec.style.display = "block";
-        });
-      
-        document.querySelectorAll(".producto").forEach(prod=>{
-          const nombre = prod.dataset.nombre.toLowerCase();
-      
-          if(nombre.includes(texto)){
-            prod.style.display = "block";
-            encontrados++;
-          } else {
-            prod.style.display = "none";
-          }
-        });
-      
-        if(encontrados === 0 && texto !== ""){
-          document.getElementById("sinResultados").style.display = "block";
-        } else {
-          document.getElementById("sinResultados").style.display = "none";
-        }
-      
-        if(texto === ""){
-          document.querySelectorAll(".producto").forEach(p=>{
-            p.style.display = "block";
-          });
-      
-          document.querySelectorAll(".seccion").forEach(sec=>{
-            sec.style.display = "none";
-          });
-    
-          // Mostrar Home de nuevo si la búsqueda está vacía
-          const home = document.getElementById("home");
-          if(home){
-            home.style.display = "block";
-          }
-        }
-    }
-    function mostrarSeccionExtra(id){
-      // Oculta tus secciones de productos
-      document.querySelectorAll(".seccion").forEach(sec=>{
-        sec.style.display = "none";
-      });
-    
-      // Oculta las secciones extras
-      document.querySelectorAll(".seccion-extra").forEach(sec=>{
-        sec.style.display = "none";
-      });
-    
-      // Muestra la que tocaste
-      document.getElementById(id).style.display = "block";
-    }
-    
-    </script>
-    
+  }
+  /* -------- SLIDER AUTOMÁTICO -------- */
 
-</script>
+let indice = 0;
+let slides = document.querySelectorAll(".slide");
+let puntos = document.querySelectorAll(".punto");
 
-</body>
-</html>
+function cambiarSlide(n){
+  slides.forEach(s => s.classList.remove("activo"));
+  puntos.forEach(p => p.classList.remove("activo"));
+
+  slides[n].classList.add("activo");
+  puntos[n].classList.add("activo");
+
+  indice = n;
+}
+
+function avanzar(){
+  indice++;
+  if(indice >= slides.length){ indice = 0; }
+  cambiarSlide(indice);
+}
+
+setInterval(avanzar, 4000);  // cambia cada 4 segundos
+function mostrarCategorias(){
+  mostrar('Categorias'); // cambia según tu sección
+}
+
+  </script>
+  
