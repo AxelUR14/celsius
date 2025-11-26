@@ -333,7 +333,7 @@ body{display:flex;flex-direction:column;min-height:100vh;background:#111;color:#
 
 <!-- HOME -->
 <div id="home" class="seccion-extra">
-  <h2>Bienvenido a Celsius</h2>
+  <!--<h2>Bienvenido a Celsius</h2>-->
   <p></p>
   <img src="logo.jpeg" style="max-width:300px;width:100%;border-radius:8px;">
 </div>
@@ -373,99 +373,114 @@ body{display:flex;flex-direction:column;min-height:100vh;background:#111;color:#
 
 <script>
 
-window.addEventListener("load", () => {
-  document.getElementById("menuLateral").classList.remove("abierto");
-});
-
-function toggleMenu(){
-  const menu = document.getElementById("menuLateral");
-  menu.classList.toggle("abierto");
-}
-
-function mostrar(id){
-
-  // Oculta todas las secciones de productos
-  document.querySelectorAll(".seccion").forEach(sec=>{
-    sec.style.display = "none";
-    sec.classList.remove("activa");
-  });
-
-  // Oculta todas las secciones extras (home, ofertas etc)
-  document.querySelectorAll(".seccion-extra").forEach(sec=>{
-    sec.style.display = "none";
-  });
-
-  // Muestra la sección tocada
-  const seccion = document.getElementById(id);
-  if(seccion){
-    seccion.style.display = "block";
-    seccion.classList.add("activa");
-    seccion.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  // Cierra el menú lateral en móvil
-  if(window.innerWidth < 768){
-    document.getElementById("menuLateral").classList.remove("abierto");
-  }
-}
-
-function limpiarBusqueda(){
-  document.getElementById("buscador").value="";
-  document.getElementById("sinResultados").style.display="none";
-  document.querySelectorAll(".producto").forEach(p=>p.style.display="block");
-}
-
-function buscarProductos(){
-    const texto = document.getElementById("buscador").value.toLowerCase();
-    let encontrados = 0;
   
-    document.querySelectorAll(".seccion").forEach(sec => {
-      sec.style.display = "block";
-    });
-  
-    document.querySelectorAll(".producto").forEach(prod=>{
-      const nombre = prod.dataset.nombre.toLowerCase();
-  
-      if(nombre.includes(texto)){
-        prod.style.display = "block";
-        encontrados++;
-      } else {
-        prod.style.display = "none";
+
+    window.addEventListener("load", () => {
+      document.getElementById("menuLateral").classList.remove("abierto");
+    
+      // Mostrar Home por defecto al iniciar
+      const home = document.getElementById("home");
+      if(home){
+        home.style.display = "block";
       }
     });
-  
-    if(encontrados === 0 && texto !== ""){
-      document.getElementById("sinResultados").style.display = "block";
-    } else {
-      document.getElementById("sinResultados").style.display = "none";
+    
+    function toggleMenu(){
+      const menu = document.getElementById("menuLateral");
+      menu.classList.toggle("abierto");
     }
-  
-    if(texto === ""){
-      document.querySelectorAll(".producto").forEach(p=>{
-        p.style.display = "block";
+    
+    function mostrar(id){
+    
+      // Oculta todas las secciones de productos
+      document.querySelectorAll(".seccion").forEach(sec=>{
+        sec.style.display = "none";
+        sec.classList.remove("activa");
       });
-  
+    
+      // Oculta todas las secciones extras (home, ofertas etc)
+      document.querySelectorAll(".seccion-extra").forEach(sec=>{
+        sec.style.display = "none";
+      });
+    
+      // Muestra la sección tocada
+      const seccion = document.getElementById(id);
+      if(seccion){
+        seccion.style.display = "block";
+        seccion.classList.add("activa");
+        seccion.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    
+      // Cierra el menú lateral en móvil
+      if(window.innerWidth < 768){
+        document.getElementById("menuLateral").classList.remove("abierto");
+      }
+    }
+    
+    function limpiarBusqueda(){
+      document.getElementById("buscador").value="";
+      document.getElementById("sinResultados").style.display="none";
+      document.querySelectorAll(".producto").forEach(p=>p.style.display="block");
+    }
+    
+    function buscarProductos(){
+        const texto = document.getElementById("buscador").value.toLowerCase();
+        let encontrados = 0;
+      
+        document.querySelectorAll(".seccion").forEach(sec => {
+          sec.style.display = "block";
+        });
+      
+        document.querySelectorAll(".producto").forEach(prod=>{
+          const nombre = prod.dataset.nombre.toLowerCase();
+      
+          if(nombre.includes(texto)){
+            prod.style.display = "block";
+            encontrados++;
+          } else {
+            prod.style.display = "none";
+          }
+        });
+      
+        if(encontrados === 0 && texto !== ""){
+          document.getElementById("sinResultados").style.display = "block";
+        } else {
+          document.getElementById("sinResultados").style.display = "none";
+        }
+      
+        if(texto === ""){
+          document.querySelectorAll(".producto").forEach(p=>{
+            p.style.display = "block";
+          });
+      
+          document.querySelectorAll(".seccion").forEach(sec=>{
+            sec.style.display = "none";
+          });
+    
+          // Mostrar Home de nuevo si la búsqueda está vacía
+          const home = document.getElementById("home");
+          if(home){
+            home.style.display = "block";
+          }
+        }
+    }
+    function mostrarSeccionExtra(id){
+      // Oculta tus secciones de productos
       document.querySelectorAll(".seccion").forEach(sec=>{
         sec.style.display = "none";
       });
-  
-      document.querySelector(".seccion.activa").style.display = "block";
+    
+      // Oculta las secciones extras
+      document.querySelectorAll(".seccion-extra").forEach(sec=>{
+        sec.style.display = "none";
+      });
+    
+      // Muestra la que tocaste
+      document.getElementById(id).style.display = "block";
     }
-}
-function mostrarSeccionExtra(id){
-  // Oculta tus secciones de productos
-  document.querySelectorAll(".seccion").forEach(sec=>{
-    sec.style.display = "none";
-  });
-
-  // Oculta las secciones extras
-  document.querySelectorAll(".seccion-extra").forEach(sec=>{
-    sec.style.display = "none";
-  });
-
-  // Muestra la que tocaste
-  document.getElementById(id).style.display = "block";
-}
+    
+    </script>
+    
 
 </script>
 
