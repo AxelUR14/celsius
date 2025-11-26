@@ -38,7 +38,7 @@ body{display:flex;flex-direction:column;min-height:100vh;background:#111;color:#
   align-items:center;
 }
 .menu-top a,.dropbtn{
-  color:#fff;
+  color:white;
   text-decoration:none;
   background:none;
   border:none;
@@ -111,7 +111,7 @@ body{display:flex;flex-direction:column;min-height:100vh;background:#111;color:#
 /* GALERIA */
 .galeria{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas en PC */
   gap:15px;
 }
 .producto{
@@ -133,6 +133,9 @@ body{display:flex;flex-direction:column;min-height:100vh;background:#111;color:#
   .menu{width:80%;max-width:260px;}
   .menu-top{flex-wrap:wrap}
   .buscador input{width:90%}
+  .galeria{
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en móvil */
+  }
 }
 /* HEADER DEL MENU */
 .menu-header{
@@ -158,6 +161,13 @@ body{display:flex;flex-direction:column;min-height:100vh;background:#111;color:#
       font-size:26px;
     }
   }
+  .seccion-extra {
+    display: none;
+    margin-top: 20px;
+    padding: 15px;
+    background: #111;
+    border-radius: 8px;
+  }
   
 </style>
 </head>
@@ -176,17 +186,18 @@ body{display:flex;flex-direction:column;min-height:100vh;background:#111;color:#
   </div>
 
   <div class="menu-top">
-    <a href="#">Home</a>
+    <a href="#"></a>
     <button onclick="toggleMenu()">Categoría de productos ☰</button>
-    <a href="#">Ofertas</a>
-    <a href="#">Novedades</a>
-    <a href="#">Empresa</a>
-    <a href="#">Destacados</a>
-    <a href="#">Contacto</a>
+    <button onclick="mostrarSeccionExtra('home')">Home</button>
+<button onclick="mostrarSeccionExtra('ofertas')">Ofertas</button>
+<button onclick="mostrarSeccionExtra('novedades')">Novedades</button>
+<button onclick="mostrarSeccionExtra('empresa')">Empresa</button>
+<button onclick="mostrarSeccionExtra('destacados')">Destacados</button>
+<button onclick="mostrarSeccionExtra('contacto')">Contacto</button>
+
   </div>
 </div>
 
-<!-- MENU LATERAL -->
 <!-- MENU LATERAL -->
 <div class="menu" id="menuLateral">
     <div class="menu-header">
@@ -194,70 +205,168 @@ body{display:flex;flex-direction:column;min-height:100vh;background:#111;color:#
       <button class="cerrar-menu" onclick="toggleMenu()">✖</button>
     </div>
   
-    <button onclick="mostrar('resistencias')">Resistencias</button>
-    <button onclick="mostrar('capacitores')">Capacitores</button>
-    <button onclick="mostrar('transistores')">Transistores</button>
-    <button onclick="mostrar('led')">Iluminación LED</button>
-    <button onclick="mostrar('instrumentos')">Instrumentos</button>
+    <button onclick="mostrar('Audio')">Audio</button>
+    <button onclick="mostrar('Electricidad')">Electricidad</button>
+    <button onclick="mostrar('Iluminacion')">Iluminación</button>
+    <button onclick="mostrar('Instrumental')">Instrumental</button>
+    <button onclick="mostrar('Seguridad')">Seguridad</button>
   </div>
   
 
 <!-- CONTENIDO -->
 <div class="contenido">
 
-<!-- RESISTENCIAS -->
-<div id="resistencias" class="seccion activa">
-<h2>Resistencias</h2>
+<!-- AUDIO -->
+<div id="Audio" class="seccion">
+<h2>Audio</h2>
 <div class="galeria">
 <div class="producto" data-nombre="Resistencia 220 ohm">
 <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.16 PM.jpeg">
-<p>Resistencia 220 ohm</p>
+<p>Producto1</p>
+</div>
+<div class="producto" data-nombre="Resistencia 220 ohm">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.16 PM.jpeg">
+<p>Producto2</p>
+</div>
+<div class="producto" data-nombre="Resistencia 220 ohm">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.16 PM.jpeg">
+<p>Producto3</p>
+</div>
+<div class="producto" data-nombre="Resistencia 220 ohm">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.16 PM.jpeg">
+<p>Producto4</p>
 </div>
 </div>
 </div>
 
-<!-- CAPACITORES -->
-<div id="capacitores" class="seccion">
-<h2>Capacitores</h2>
+<!-- ELECTRICIDAD -->
+<div id="Electricidad" class="seccion">
+<h2>Electricidad</h2>
 <div class="galeria">
 <div class="producto" data-nombre="Capacitor 100uF">
 <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
-<p>Capacitor 100uF</p>
+<p>Producto 1</p>
+</div>
+<div class="producto" data-nombre="Capacitor 100uF">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+<p>Producto 2</p>
+</div>
+<div class="producto" data-nombre="Capacitor 100uF">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+<p>Producto 3</p>
+</div>
+<div class="producto" data-nombre="Capacitor 100uF">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+<p>Producto 4</p>
 </div>
 </div>
 </div>
 
-<!-- TRANSISTORES -->
-<div id="transistores" class="seccion">
-<h2>Transistores</h2>
+<!-- ILUMINACION -->
+<div id="Iluminacion" class="seccion">
+<h2>Iluminacion</h2>
 <div class="galeria">
 <div class="producto" data-nombre="Transistor BC547">
 <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM (1).jpeg">
-<p>Transistor BC547</p>
+<p>Producto 1</p>
+</div>
+<div class="producto" data-nombre="Capacitor 100uF">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+<p>Producto 2</p>
+</div>
+<div class="producto" data-nombre="Capacitor 100uF">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+<p>Producto 3</p>
+</div>
+<div class="producto" data-nombre="Capacitor 100uF">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+<p>Producto 4</p>
 </div>
 </div>
 </div>
 
-<!-- LED -->
-<div id="led" class="seccion">
-<h2>Iluminación LED</h2>
+<!-- SEGURIDAD -->
+<div id="Seguridad" class="seccion">
+<h2>Seguridad</h2>
 <div class="galeria">
 <div class="producto" data-nombre="Led rojo 5mm">
 <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM (2).jpeg">
-<p>Led rojo 5mm</p>
+<p>Producto 1</p>
+</div>
+<div class="producto" data-nombre="Capacitor 100uF">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+<p>Producto 2</p>
+</div>
+<div class="producto" data-nombre="Capacitor 100uF">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+<p>Producto 3</p>
+</div>
+<div class="producto" data-nombre="Capacitor 100uF">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+<p>Producto 4</p>
 </div>
 </div>
 </div>
 
-<!-- INSTRUMENTOS -->
-<div id="instrumentos" class="seccion">
+<!-- INSTRUMENTAL -->
+<div id="Instrumental" class="seccion">
 <h2>Instrumentos</h2>
 <div class="galeria">
 <div class="producto" data-nombre="Tester digital">
 <img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
-<p>Tester digital</p>
+<p>Producto 1</p>
+</div>
+<div class="producto" data-nombre="Capacitor 100uF">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+<p>Producto 2</p>
+</div>
+<div class="producto" data-nombre="Capacitor 100uF">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+<p>Producto 3</p>
+</div>
+<div class="producto" data-nombre="Capacitor 100uF">
+<img src="/mnt/data/WhatsApp Image 2025-11-25 at 4.21.17 PM.jpeg">
+<p>Producto 4</p>
 </div>
 </div>
+</div>
+
+<!-- HOME -->
+<div id="home" class="seccion-extra">
+  <h2>Bienvenido a Celsius</h2>
+  <p></p>
+  <img src="logo.jpeg" style="max-width:300px;width:100%;border-radius:8px;">
+</div>
+
+<!-- OFERTAS -->
+<div id="ofertas" class="seccion-extra">
+  <h2>Ofertas</h2>
+  <p></p>
+</div>
+
+<!-- NOVEDADES -->
+<div id="novedades" class="seccion-extra">
+  <h2>Novedades</h2>
+  <p></p>
+</div>
+
+<!-- EMPRESA -->
+<div id="empresa" class="seccion-extra">
+  <h2>Sobre Nosotros</h2>
+  <p></p>
+</div>
+
+<!-- DESTACADOS -->
+<div id="destacados" class="seccion-extra">
+  <h2>Productos Destacados</h2>
+  <p>Podés mostrar tus mejores productos.</p>
+</div>
+
+<!-- CONTACTO -->
+<div id="contacto" class="seccion-extra">
+  <h2>Contacto</h2>
+  <p>WhatsApp: +54...</p>
+  <p>Email: tucorreo@correo.com</p>
 </div>
 
 </div>
@@ -274,9 +383,30 @@ function toggleMenu(){
 }
 
 function mostrar(id){
-  document.querySelectorAll(".seccion").forEach(s=>s.classList.remove("activa"));
-  document.getElementById(id).classList.add("activa");
-  toggleMenu();
+
+  // Oculta todas las secciones de productos
+  document.querySelectorAll(".seccion").forEach(sec=>{
+    sec.style.display = "none";
+    sec.classList.remove("activa");
+  });
+
+  // Oculta todas las secciones extras (home, ofertas etc)
+  document.querySelectorAll(".seccion-extra").forEach(sec=>{
+    sec.style.display = "none";
+  });
+
+  // Muestra la sección tocada
+  const seccion = document.getElementById(id);
+  if(seccion){
+    seccion.style.display = "block";
+    seccion.classList.add("activa");
+    seccion.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // Cierra el menú lateral en móvil
+  if(window.innerWidth < 768){
+    document.getElementById("menuLateral").classList.remove("abierto");
+  }
 }
 
 function limpiarBusqueda(){
@@ -322,6 +452,21 @@ function buscarProductos(){
       document.querySelector(".seccion.activa").style.display = "block";
     }
 }
+function mostrarSeccionExtra(id){
+  // Oculta tus secciones de productos
+  document.querySelectorAll(".seccion").forEach(sec=>{
+    sec.style.display = "none";
+  });
+
+  // Oculta las secciones extras
+  document.querySelectorAll(".seccion-extra").forEach(sec=>{
+    sec.style.display = "none";
+  });
+
+  // Muestra la que tocaste
+  document.getElementById(id).style.display = "block";
+}
+
 </script>
 
 </body>
