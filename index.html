@@ -401,6 +401,47 @@ body{
   padding: 0;
 }
 
+/* Ajustes responsive para móviles */
+@media(max-width:800px){
+
+  /* Topbar: que los elementos no se superpongan */
+  .topbar {
+    flex-wrap: wrap;         /* permite que los elementos bajen de línea */
+    justify-content: center; /* centra los elementos */
+    gap: 5px;                /* espacio entre ellos */
+  }
+
+  .logo-top img {
+    height: 40px;            /* reduce tamaño en móvil */
+  }
+
+  .search-box input {
+    width: 100px;             /* reduce ancho del input */
+  }
+
+  .telefono-box {
+    width: 100%;              /* ocupa toda la línea */
+    text-align: center;       /* centra el número */
+    margin-top: 5px;          /* separa del resto */
+    font-size: 15px;          /* reduce tamaño */
+  }
+
+  /* Menú lateral: contenido de los botones se ajusta */
+  .menu {
+    width: 200px;             /* ancho menor */
+    padding: 5px;
+  }
+
+  .menu button {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .submenu button {
+    font-size: 13px;
+    padding: 6px;
+  }
+}
 
 
 </style>
