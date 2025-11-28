@@ -182,34 +182,43 @@ body{
 /* ------------------------------------------------ */
 /* SLIDER HOME                                      */
 /* ------------------------------------------------ */
+/* ------------------------------------------------ */
+/* SLIDER HOME (centrado en PC y móvil)            */
+/* ------------------------------------------------ */
 .slider-contenedor{
   width:100%;
-  max-width:600px;
-  margin:auto;
+  max-width:1200px; /* o el máximo que quieras en PC */
+  margin:0 auto; /* centrado */
   position:relative;
 }
+
 .slide{
   display:none;
+  width:100%;
+  display:flex;
+  justify-content:center; /* centra la imagen horizontalmente */
 }
+
 .slide.activo{
+  display:flex;
+}
+
+.slide img{
+  width:100%;
+  max-width:100%;
+  height:auto;
   display:block;
 }
+
 .puntos{
+  position:absolute;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
   display:flex;
-  justify-content:center;
-  margin-top:8px;
+  gap:5px;
 }
-.punto{
-  width:10px;
-  height:10px;
-  background:#999;
-  margin:5px;
-  border-radius:50%;
-  cursor:pointer;
-}
-.punto.activo{
-  background:#333;
-}
+
 
 /* ------------------------------------------------ */
 /* RESPONSIVE MOVIL                                 */
@@ -316,6 +325,80 @@ body{
   .menu.abierto {
     left: 0; /* menú visible */
   }
+}
+
+
+/* Contenedor del slider centrado */
+/* Contenedor del slider centrado */
+.slider-contenedor {
+  max-width: 600px;      /* tamaño máximo de las imágenes */
+  width: 100%;
+  margin: 0 auto;        /* centra horizontalmente */
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center; /* centra las imágenes */
+  align-items: center;     /* opcional, centra vertical dentro del contenedor */
+}
+
+/* Cada slide */
+.slide {
+  display: none;
+  width: 100%;
+}
+
+.slide.activo {
+  display: block;
+}
+
+/* Imagen del slide */
+.slide img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Puntos centrados */
+.puntos {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  z-index: 10;
+}
+
+.punto {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #999;
+  cursor: pointer;
+}
+
+.punto.activo {
+  background: #333;
+}
+
+/* Móvil */
+@media(max-width:800px){
+  .slider-contenedor {
+    padding: 0 10px;
+  }
+}
+
+/* Centrar el carrusel solo en la sección home */
+.contenido > .seccion-extra.home .slider-contenedor {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+.contenido > .seccion-extra.home {
+  margin-left: 0 !important; /* ignora el margin-left del contenido */
+  padding: 0;
 }
 
 
@@ -435,13 +518,13 @@ body{
     <div class="contenido">
       <div id="home" class="seccion-extra home activa" style="display:block;">
         <div class="slider-contenedor">
-            <div class="slide activo"><img src="video inicio/pinza amperometrica.jpeg" alt="Pinza amperométrica"></div>
+           <!-- <div class="slide activo"><img src="video inicio/pinza amperometrica.jpeg" alt="Pinza amperométrica"></div>
             <div class="slide"><img src="video inicio/crimpeadora.jpeg" alt="Crimpeadora"></div>
             <div class="puntos">
               <span class="punto activo" onclick="cambiarSlide(0)"></span>
               <span class="punto" onclick="cambiarSlide(1)"></span>
               <span class="punto" onclick="cambiarSlide(2)"></span>
-            </div>
+            </div>-->
         </div>
       </div>
       <!-- SECCIONES EXTRA -->
@@ -740,5 +823,34 @@ body{
         menu.classList.add("activo");
     }
   }
+  {let indiceSlide = 0;
+const slides = document.querySelectorAll(".slide");
+const puntos = document.querySelectorAll(".punto");
+
+function mostrarSlide(n) {
+  slides.forEach((s, i) => {
+    s.classList.toggle("activo", i === n);
+    puntos[i].classList.toggle("activo", i === n);
+  });
+}
+
+function siguienteSlide() {
+  indiceSlide = (indiceSlide + 1) % slides.length;
+  mostrarSlide(indiceSlide);
+}
+
+// Avanzar automáticamente cada 3 segundos
+setInterval(siguienteSlide, 3000);
+
+// Puntos clickeables
+puntos.forEach((p, i) => {
+  p.addEventListener("click", () => {
+    indiceSlide = i;
+    mostrarSlide(indiceSlide);
+  });
+});
+
+// Mostrar el primer slide al inicio
+mostrarSlide(indiceSlide);}
   </script>
   
