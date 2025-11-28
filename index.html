@@ -187,7 +187,7 @@ body{background:#f2f4f7;color:#000;}
 /* TOP BAR ESTILO EF MEJORADO */
 .topbar{
   width:100%;
-  background:#059bf1;
+  background:#35dd9d;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -230,7 +230,7 @@ body{background:#f2f4f7;color:#000;}
 .telefono-box{
   display:flex;
   align-items:center;
-  background:#003b63;
+  background:#35dd9d;
   padding:8px 12px;
   border-radius:5px;
   color:white;
@@ -244,7 +244,7 @@ body{background:#f2f4f7;color:#000;}
 /* MENÚ SECUNDARIO (HOME - OFERTAS - ETC) */
 .menu-top-bar{
   width:100%;
-  background:#021f33;
+  background:#35dd9d;
   padding:10px 15px;
   display:flex;
   gap:15px;
@@ -554,7 +554,54 @@ body{background:#f2f4f7;color:#000;}
       text-align: center;
       font-size: 20px;
   }
-  
+  /* ==== MENU LATERAL SIEMPRE VISIBLE EN PC ==== */
+@media (min-width: 769px){
+  #menuLateral{
+      transform: translateX(0) !important; /* siempre visible */
+      position: static !important;         /* ocupa lugar fijo */
+      width: 260px !important;             /* ancho normal */
+      height: auto;
+  }
+
+  /* Como ahora está siempre visible, no debe tapar contenido */
+  .contenido{
+      margin-left: 260px !important;
+  }
+
+  /* El botón de categorías del topbar NO debe aparecer en PC */
+  .menu-top-bar button:first-child{
+      display: none !important;
+  }
+}
+/* Contenedor de categoría */
+.categoria button{
+  width:100%;
+  background:#1a1a1a;
+  padding:12px;
+  margin:4px 0;
+  color:white;
+  border:none;
+  border-radius:6px;
+  font-size:16px;
+  text-align:left;
+  cursor:pointer;
+}
+
+/* Submenús ocultos */
+.submenu{
+  display:none;
+  padding-left:15px;
+}
+
+/* Botones del submenú */
+.submenu button{
+  background:#2b2b2b;
+  padding:10px;
+  margin:3px 0;
+  font-size:15px;
+  border-radius:5px;
+}
+
   }
   
 </style>
@@ -596,16 +643,69 @@ body{background:#f2f4f7;color:#000;}
 <!-- MENÚ LATERAL -->
 <div class="menu" id="menuLateral">
   <div class="menu-header">
-    <h1>Electrónica</h1>
+    <h1>Categorías</h1>
     <button class="cerrar-menu" onclick="toggleMenu()">✖</button>
   </div>
 
-  <button onclick="mostrar('Audio')">Audio</button>
-  <button onclick="mostrar('Electricidad')">Electricidad</button>
-  <button onclick="mostrar('Iluminacion')">Iluminación</button>
-  <button onclick="mostrar('Instrumental')">Instrumental</button>
-  <button onclick="mostrar('Seguridad')">Seguridad</button>
+  <!-- AUDIO -->
+  <div class="cat" onclick="toggleSub('subAudio')">
+    <span>AUDIO</span>
+    <span class="flecha">▸</span>
+  </div>
+  <div class="subcat" id="subAudio">
+    <button onclick="mostrarSub('Accesorios Multimedia')">Accesorios multimedia</button>
+    <button onclick="mostrarSub('Auriculares')">Auriculares</button>
+    <button onclick="mostrarSub('Car Audio')">Car audio</button>
+    <button onclick="mostrarSub('Micrófonos')">Micrófonos</button>
+    <button onclick="mostrarSub('Audio Profesional')">Audio profesional</button>
+    <button onclick="mostrarSub('Cables armados')">Cables armados</button>
+    <button onclick="mostrarSub('Parlantes y woofers')">Parlantes, woofers y tweeters</button>
+  </div>
+
+  <!-- ELECTRICIDAD -->
+  <div class="cat" onclick="toggleSub('subElect')">
+    <span>ELECTRICIDAD</span>
+    <span class="flecha">▸</span>
+  </div>
+  <div class="subcat" id="subElect">
+    <button onclick="mostrarSub('Cable 1mm')">Cable 1mm</button>
+    <button onclick="mostrarSub('Cable 2mm')">Cable 2mm</button>
+    <button onclick="mostrarSub('Regleta')">Regletas</button>
+    <button onclick="mostrarSub('Toma corriente')">Toma corriente</button>
+  </div>
+
+  <!-- ILUMINACIÓN -->
+  <div class="cat" onclick="toggleSub('subIlum')">
+    <span>ILUMINACIÓN</span>
+    <span class="flecha">▸</span>
+  </div>
+  <div class="subcat" id="subIlum">
+    <button onclick="mostrarSub('Lámpara LED')">Lámparas LED</button>
+    <button onclick="mostrarSub('Reflector')">Reflectores</button>
+    <button onclick="mostrarSub('Guirnalda')">Guirnaldas LED</button>
+  </div>
+
+  <!-- INSTRUMENTAL -->
+  <div class="cat" onclick="toggleSub('subInst')">
+    <span>INSTRUMENTAL</span>
+    <span class="flecha">▸</span>
+  </div>
+  <div class="subcat" id="subInst">
+    <button onclick="mostrarSub('Tester')">Tester digital</button>
+    <button onclick="mostrarSub('Pinza')">Pinza amperométrica</button>
+  </div>
+
+  <!-- SEGURIDAD -->
+  <div class="cat" onclick="toggleSub('subSeg')">
+    <span>SEGURIDAD</span>
+    <span class="flecha">▸</span>
+  </div>
+  <div class="subcat" id="subSeg">
+    <button onclick="mostrarSub('Cámara')">Cámaras</button>
+    <button onclick="mostrarSub('Alarma')">Alarmas</button>
+  </div>
 </div>
+
 
 <!-- CONTENIDO -->
 <div class="contenido">
@@ -852,6 +952,18 @@ setInterval(avanzar, 4000);  // cambia cada 4 segundos
 function mostrarCategorias(){
   mostrar('Categorias'); // cambia según tu sección
 }
+function toggleSubmenu(boton){
+  const submenu = boton.nextElementSibling;
+
+  // Cerrar otros submenús
+  document.querySelectorAll(".submenu").forEach(s => {
+    if(s !== submenu){ s.style.display = "none"; }
+  });
+
+  // Abrir/cerrar el seleccionado
+  submenu.style.display =
+    submenu.style.display === "block" ? "none" : "block";
+}
+
 
   </script>
-  
