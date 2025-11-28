@@ -209,12 +209,35 @@ body{
     position:fixed;
     left:-260px;
     transition:all 0.3s;
+    width:200px;
   }
   .menu.activo{
     left:0;
+    z-index:2001;
   }
   .contenido{
     margin-left:0;
+    padding:10px;
+  }
+  .slider-contenedor{
+    max-width:100%;
+  }
+  .producto{
+    width:45%;
+  }
+  .search-box input{
+    width:120px;
+  }
+  .menu-top-bar{
+    flex-wrap:wrap;
+  }
+}
+@media(max-width:500px){
+  .producto{
+    width:100%;
+  }
+  .search-box input{
+    width:80px;
   }
 }
 </style>
@@ -250,59 +273,44 @@ body{
 
 <!-- MENÚ LATERAL -->
 <div class="menu" id="menuLateral">
-
   <h1>Categorías</h1>
-
-  <!-- AUDIO -->
   <button onclick="toggleSubmenu(this)">Audio ▼</button>
   <div class="submenu">
       <button onclick="mostrar('Parlantes')">Parlantes</button>
       <button onclick="mostrar('Auriculares')">Auriculares</button>
       <button onclick="mostrar('Microfonos')">Micrófonos</button>
   </div>
-
-  <!-- ELECTRICIDAD -->
   <button onclick="toggleSubmenu(this)">Electricidad ▼</button>
   <div class="submenu">
       <button onclick="mostrar('Tomacorrientes')">Tomacorrientes</button>
       <button onclick="mostrar('Llaves de luz')">Llaves de luz</button>
       <button onclick="mostrar('Regletas')">Regletas</button>
   </div>
-
-  <!-- ILUMINACIÓN -->
   <button onclick="toggleSubmenu(this)">Iluminación ▼</button>
   <div class="submenu">
       <button onclick="mostrar('LED')">LED</button>
       <button onclick="mostrar('Reflectores')">Reflectores</button>
       <button onclick="mostrar('Guirnaldas')">Guirnaldas</button>
   </div>
-
-  <!-- SEGURIDAD -->
   <button onclick="toggleSubmenu(this)">Seguridad ▼</button>
   <div class="submenu">
       <button onclick="mostrar('Camaras')">Cámaras</button>
       <button onclick="mostrar('Alarmas')">Alarmas</button>
   </div>
-
-  <!-- INSTRUMENTAL -->
   <button onclick="toggleSubmenu(this)">Instrumental ▼</button>
   <div class="submenu">
       <button onclick="mostrar('Tester')">Tester</button>
       <button onclick="mostrar('Pinza')">Pinza</button>
   </div>
-
 </div>
 
 <!-- CONTENIDO -->
 <div class="contenido">
-
-  <!-- HOME -->
   <div id="home" class="seccion-extra" style="display:block;">
     <div class="slider-contenedor">
         <div class="slide activo"><img src="video inicio/pinza amperometrica.jpeg"></div>
         <div class="slide"><img src="video inicio/tester digital.jpeg"></div>
         <div class="slide"><img src="video inicio/crimpeadora.jpeg"></div>
-
         <div class="puntos">
           <span class="punto activo" onclick="cambiarSlide(0)"></span>
           <span class="punto" onclick="cambiarSlide(1)"></span>
@@ -315,18 +323,14 @@ body{
   <div id="Parlantes" class="seccion"><h2>Parlantes</h2></div>
   <div id="Auriculares" class="seccion"><h2>Auriculares</h2></div>
   <div id="Microfonos" class="seccion"><h2>Micrófonos</h2></div>
-
   <div id="Tomacorrientes" class="seccion"><h2>Tomacorrientes</h2></div>
   <div id="Llaves de luz" class="seccion"><h2>Llaves de luz</h2></div>
   <div id="Regletas" class="seccion"><h2>Regletas</h2></div>
-
   <div id="LED" class="seccion"><h2>LED</h2></div>
   <div id="Reflectores" class="seccion"><h2>Reflectores</h2></div>
   <div id="Guirnaldas" class="seccion"><h2>Guirnaldas</h2></div>
-
   <div id="Camaras" class="seccion"><h2>Cámaras</h2></div>
   <div id="Alarmas" class="seccion"><h2>Alarmas</h2></div>
-
   <div id="Tester" class="seccion"><h2>Tester</h2></div>
   <div id="Pinza" class="seccion"><h2>Pinza</h2></div>
 
@@ -335,7 +339,6 @@ body{
   <div id="novedades" class="seccion-extra"><h2>Novedades</h2></div>
   <div id="destacados" class="seccion-extra"><h2>Destacados</h2></div>
   <div id="contacto" class="seccion-extra"><h2>Contacto</h2></div>
-
 </div>
 
 <!-- JAVASCRIPT -->
@@ -363,7 +366,6 @@ function toggleSubmenu(boton){
 let indice = 0;
 const slides = document.querySelectorAll(".slide");
 const puntos = document.querySelectorAll(".punto");
-
 function cambiarSlide(n){
   slides.forEach(s=>s.classList.remove("activo"));
   puntos.forEach(p=>p.classList.remove("activo"));
@@ -371,7 +373,6 @@ function cambiarSlide(n){
   slides[n].classList.add("activo");
   puntos[n].classList.add("activo");
 }
-
 function avanzar(){
   indice++;
   if(indice>=slides.length) indice=0;
@@ -388,9 +389,7 @@ function actualizarAlturaHeader() {
 window.addEventListener("load", actualizarAlturaHeader);
 window.addEventListener("resize", actualizarAlturaHeader);
 
-// ------------------------------------------------
 // DATOS DE PRODUCTOS
-// ------------------------------------------------
 const productos = [
   {nombre:"Parlante Bluetooth", categoria:"Parlantes", img:"video inicio/parlante.jpeg"},
   {nombre:"Auriculares Inalámbricos", categoria:"Auriculares", img:"video inicio/auriculares.jpeg"},
@@ -407,16 +406,13 @@ const productos = [
   {nombre:"Pinza Amperométrica", categoria:"Pinza", img:"video inicio/pinza amperometrica.jpeg"}
 ];
 
-// ------------------------------------------------
-// FUNCIONES PARA MOSTRAR PRODUCTOS POR SUBCATEGORÍA
-// ------------------------------------------------
+// FUNCIONES PARA MOSTRAR PRODUCTOS
 function mostrar(id){
   document.querySelectorAll(".seccion, .seccion-extra").forEach(s=>s.style.display="none");
   const seccion = document.getElementById(id);
   if(!seccion) return;
   seccion.style.display="block";
 
-  // mostrar productos filtrados por subcategoría
   seccion.innerHTML = `<h2>${id}</h2><div class="galeria"></div>`;
   const galeria = seccion.querySelector(".galeria");
   productos.filter(p=>p.categoria===id).forEach(p=>{
@@ -427,9 +423,7 @@ function mostrar(id){
   });
 }
 
-// ------------------------------------------------
 // BUSCADOR EN TIEMPO REAL
-// ------------------------------------------------
 const buscador = document.getElementById("buscador");
 buscador.addEventListener("input", function(){
   const texto = this.value.toLowerCase();
