@@ -239,6 +239,26 @@ body{
   .search-box input{
     width:80px;
   }
+  /* BOTÓN CERRAR MENÚ EN MÓVIL */
+.cerrar-menu{
+  display:none;
+  background:#f44336;
+  color:white;
+  border:none;
+  border-radius:5px;
+  padding:5px 10px;
+  cursor:pointer;
+  font-size:16px;
+  margin-bottom:10px;
+}
+
+/* Mostrar botón cerrar solo en móvil */
+@media(max-width:800px){
+  .cerrar-menu{
+    display:block;
+  }
+}
+
 }
 </style>
 </head>
@@ -273,6 +293,7 @@ body{
 
 <!-- MENÚ LATERAL -->
 <div class="menu" id="menuLateral">
+  <button class="cerrar-menu" onclick="toggleMenu()">✖</button>
   <h1>Categorías</h1>
   <button onclick="toggleSubmenu(this)">Audio ▼</button>
   <div class="submenu">
