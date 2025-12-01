@@ -6,684 +6,550 @@
 <title>Celsius</title>
 
 <style>
-/* ------------------------------------------------ */
-/* RESETEOS GENERALES                               */
-/* ------------------------------------------------ */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial, Helvetica, sans-serif;
-}
-body{
-  background:#f2f4f7;
-  color:#000;
-  --alturaHeader:80px;
-}
-
-/* ------------------------------------------------ */
-/* TOP BAR                                          */
-/* ------------------------------------------------ */
-.topbar{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:auto;
-  background:#45d67d;
-  padding:10px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  z-index:2000;
-  border-bottom:2px solid #30c975;
-}
-.logo-top img{
-  height:45px;
-  width:auto;
-  border-radius:10px;
-}
-
-.search-box{
-  display:flex;
-  gap:8px;
-  align-items:center;
-}
-.search-box input{
-  padding:8px;
-  width:200px;
-  border-radius:10px;
-  border:1px solid #57f192;
-}
-.search-box .btn-search{
-  padding:8px 14px;
-  border-radius:10px;
-  border:none;
-  background:#49d167;
-  cursor:pointer;
-}
-.telefono-box{
-  font-size:17px;
-  font-weight:bold;
-}
-
-/* ------------------------------------------------ */
-/* MENU SUPERIOR (HOME – OFERTAS – ETC)             */
-/* ------------------------------------------------ */
-.menu-top-bar{
-  position:fixed;
-  top:var(--alturaHeader);
-  left:0;
-  width:100%;
-  background:#fff;
-  padding:10px;
-  display:flex;
-  gap:8px;
-  justify-content:center;
-  border-bottom:2px solid #55f798;
-  z-index:1500;
-}
-.menu-top-bar button{
-  padding:8px 12px;
-  border-radius:10px;
-  border:none;
-  background:#0dda7a;
-  cursor:pointer;
-}
-
-/* ------------------------------------------------ */
-/* MENÚ LATERAL                                     */
-/* ------------------------------------------------ */
-.menu{
-  position:fixed;
-  top:calc(var(--alturaHeader) + 50px);
-  left:-240px; /* oculto por defecto */
-  width:240px;
-  height:calc(100% - var(--alturaHeader) - 50px);
-  background:#63e6a4;
-  box-shadow:2px 0 6px rgba(0,0,0,0.1);
-  padding:10px;
-  overflow-y:auto;
-  z-index:1200;
-  transition: all 0.3s;
-}
-.menu.activo{
-  left:0;
-}
-.menu h1{
-  font-size:20px;
-  margin-bottom:10px;
-}
-.menu button{
-  width:100%;
-  text-align:left;
-  padding:10px;
-  background:White;
-  border:none;
-  margin-bottom:8px;
-  border-radius:10px;
-  cursor:pointer;
-  font-size:16px;
-}
-
-/* Submenús */
-.submenu{
-  display:none;
-  padding-left:15px;
-}
-.submenu button{
-  background:#ddd;
-  margin-top:5px;
-  font-size:15px;
-}
-
-/* ------------------------------------------------ */
-/* CONTENIDO GENERAL                                */
-/* ------------------------------------------------ */
-.contenido{
-  padding:20px;
-  margin-top:calc(var(--alturaHeader) + 70px);
-}
-
-/* En PC (>800px) mover contenido a la derecha del menú */
-@media(min-width:801px){
-  .contenido{
-    margin-left:260px;
+  /* ------------------------------------------------ */
+  /* RESETEOS GENERALES                               */
+  /* ------------------------------------------------ */
+  *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
   }
-}
-
-/* Secciones de categorías */
-.seccion{
-  display:none;
-}
-.seccion h2{
-  padding:10px 0;
-}
-
-/* Galería de productos */
-.galeria{
-  display:flex;
-  flex-wrap:wrap;
-  gap:15px;
-}
-.producto{
-  width:150px;
-  background:#fff;
-  padding:10px;
-  border-radius:10px;
-  box-shadow:0 0 5px rgba(0,0,0,0.2);
-  text-align:center;
-}
-.producto img{
-  width:100%;
-  border-radius:10px;
-}
-
-/* ------------------------------------------------ */
-/* SLIDER HOME                                      */
-/* ------------------------------------------------ */
-/* ------------------------------------------------ */
-/* SLIDER HOME (centrado en PC y móvil)            */
-/* ------------------------------------------------ */
-.slider-contenedor{
-  width:100%;
-  max-width:1200px; /* o el máximo que quieras en PC */
-  margin:0 auto; /* centrado */
-  position:relative;
-}
-
-.slide{
-  display:none;
-  width:100%;
-  display:flex;
-  justify-content:center; /* centra la imagen horizontalmente */
-}
-
-.slide.activo{
-  display:flex;
-}
-
-.slide img{
-  width:100%;
-  max-width:100%;
-  height:auto;
-  display:block;
-}
-
-.puntos{
-  position:absolute;
-  bottom:10px;
-  left:50%;
-  transform:translateX(-50%);
-  display:flex;
-  gap:5px;
-}
-
-
-/* ------------------------------------------------ */
-/* RESPONSIVE MOVIL                                 */
-/* ------------------------------------------------ */
-@media(max-width:800px){
-  .menu{
-    width:200px;
+  body{
+    background:#f2f4f7;
+    color:#000;
+    --alturaHeader:80px;
   }
-  .contenido{
-    margin-left:0;
-    padding:10px;
-  }
-  .slider-contenedor{
-    max-width:100%;
-  }
-  .producto{
-    width:45%;
-  }
-  .search-box input{
-    width:120px;
-  }
-  .menu-top-bar{
-    flex-wrap:wrap;
-  }
-}
-
-  /* MENÚ LATERAL */
-.menu{
-  position:fixed;
-  top:calc(var(--alturaHeader) + 50px);
-  left:0; /* siempre visible en PC */
-  width:240px;
-  height:calc(100% - var(--alturaHeader) - 50px);
-  background:#63e6a4;
-  box-shadow:2px 0 6px rgba(0,0,0,0.1);
-  padding:10px;
-  overflow-y:auto;
-  z-index:1200;
-  transition: all 0.3s;
-}
-
-/* SUBMENÚS siempre desplegados */
-.submenu{
-  display:block;
-  padding-left:15px;
-}
-
-/* Ocultar menú lateral en móvil */
-@media(max-width:800px){
-  .menu{
-    left:-240px; /* oculto */
-  }
-  .menu.activo{
+  
+  /* ------------------------------------------------ */
+  /* TOP BAR                                          */
+  /* ------------------------------------------------ */
+  .topbar{
+    position:fixed;
+    top:0;
     left:0;
-  }
-  .cerrar-menu{
-    display:block;
-  }
-  .contenido{
-    margin-left:0;
-  }
-}
-
-/* En PC, el contenido se mueve a la derecha del menú */
-.contenido{
-  margin-left:260px;
-  padding:20px;
-  margin-top:calc(var(--alturaHeader) + 70px);
-}
-/* Mostrar submenús al pasar el cursor solo en PC */
-@media(min-width:801px){
-  .submenu {
-    display: none; /* por defecto ocultos */
-    position: absolute;
-    left: 240px; /* ajusta según ancho del menú */
-    top: 0;
-    background:#ddd;
+    width:100%;
+    height:auto;
+    background:#45d67d;
     padding:10px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    z-index:2000;
+    border-bottom:2px solid #30c975;
+  }
+  .logo-top img{
+    height:45px;
+    width:auto;
     border-radius:10px;
   }
-
-  .menu button:hover + .submenu {
-    display: block;
+  .search-box{
+    display:flex;
+    gap:8px;
+    align-items:center;
   }
-
-  /* Opcional: que los submenús no empujen el contenido al aparecer */
-  .menu {
-    position: relative;
+  .search-box input{
+    padding:8px;
+    width:200px;
+    border-radius:10px;
+    border:1px solid #57f192;
   }
-}
-@media (min-width: 992px) { /* o el ancho que consideres "PC" */
-  .cerrar-menu {
-    display: none;
+  .search-box .btn-search{
+    padding:8px 14px;
+    border-radius:10px;
+    border:none;
+    background:#49d167;
+    cursor:pointer;
   }
-  .menu {
-    left: 0; /* el menú siempre visible */
+  .telefono-box{
+    font-size:17px;
+    font-weight:bold;
   }
-}
-/* Para pantallas grandes */
-@media (min-width: 992px) {
-  .menu {
-    left: -300px; /* menú colapsado por defecto en otras secciones */
+  
+  /* ------------------------------------------------ */
+  /* MENU SUPERIOR (HOME – OFERTAS – ETC)             */
+  /* ------------------------------------------------ */
+  .menu-top-bar{
+    position:fixed;
+    top:var(--alturaHeader);
+    left:0;
+    width:100%;
+    background:#fff;
+    padding:10px;
+    display:flex;
+    gap:8px;
+    justify-content:center;
+    border-bottom:2px solid #55f798;
+    z-index:1500;
   }
-  .menu.abierto {
-    left: 0; /* menú visible */
+  .menu-top-bar button{
+    padding:8px 12px;
+    border-radius:10px;
+    border:none;
+    background:#0dda7a;
+    cursor:pointer;
   }
-}
-
-
-/* Contenedor del slider centrado */
-/* Contenedor del slider centrado */
-.slider-contenedor {
-  max-width: 600px;      /* tamaño máximo de las imágenes */
-  width: 100%;
-  margin: 0 auto;        /* centra horizontalmente */
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  justify-content: center; /* centra las imágenes */
-  align-items: center;     /* opcional, centra vertical dentro del contenedor */
-}
-
-/* Cada slide */
-.slide {
-  display: none;
-  width: 100%;
-}
-
-.slide.activo {
-  display: block;
-}
-
-/* Imagen del slide */
-.slide img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
-
-/* Puntos centrados */
-.puntos {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 5px;
-  z-index: 10;
-}
-
-.punto {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #999;
-  cursor: pointer;
-}
-
-.punto.activo {
-  background: #333;
-}
-
-/* Móvil */
-@media(max-width:800px){
-  .slider-contenedor {
-    padding: 0 10px;
+  
+  /* ------------------------------------------------ */
+  /* MENÚ LATERAL                                     */
+  /* ------------------------------------------------ */
+  .menu{
+    position:fixed;
+    top:calc(var(--alturaHeader) + 50px);
+    left:0;
+    width:240px;
+    height:calc(100% - var(--alturaHeader) - 50px);
+    background:#63e6a4;
+    box-shadow:2px 0 6px rgba(0,0,0,0.1);
+    padding:10px;
+    overflow-y:auto;
+    z-index:1500;
+    transition: all 0.3s;
   }
-}
-
-/* Centrar el carrusel solo en la sección home */
-.contenido > .seccion-extra.home .slider-contenedor {
-  margin-left: auto !important;
-  margin-right: auto !important;
-  display: flex !important;
-  justify-content: center !important;
-}
-.contenido > .seccion-extra.home {
-  margin-left: 0 !important; /* ignora el margin-left del contenido */
-  padding: 0;
-}
-
-/* Ajustes responsive para móviles */
-@media(max-width:800px){
-
-  /* Topbar: que los elementos no se superpongan */
-  .topbar {
-    flex-wrap: wrap;         /* permite que los elementos bajen de línea */
-    justify-content: center; /* centra los elementos */
-    gap: 5px;                /* espacio entre ellos */
+  .menu h1{
+    font-size:20px;
+    margin-bottom:10px;
   }
-
-  .logo-top img {
-    height: 40px;            /* reduce tamaño en móvil */
+  .menu button{
+    width:100%;
+    padding:10px;
+    background:white;
+    border:none;
+    margin-bottom:8px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+    text-align:left;
   }
-
-  .search-box input {
-    width: 100px;             /* reduce ancho del input */
+  
+  /* Submenús tipo acordeón */
+  .submenu{
+    display:none; /* oculto por defecto */
+    padding-left:15px;
+    position: relative; /* dentro del flujo normal */
   }
-
-  .telefono-box {
-    width: 100%;              /* ocupa toda la línea */
-    text-align: center;       /* centra el número */
-    margin-top: 5px;          /* separa del resto */
-    font-size: 15px;          /* reduce tamaño */
+  .submenu button{
+    width:100%;
+    background:#ddd;
+    margin-top:5px;
+    font-size:15px;
+    text-align:left;
   }
-
-  /* Menú lateral: contenido de los botones se ajusta */
-  .menu {
-    width: 200px;             /* ancho menor */
-    padding: 5px;
+  .submenu.activo{
+    display:block; /* se expande correctamente */
   }
-
-  .menu button {
-    font-size: 14px;
-    padding: 8px;
+  
+  /* ------------------------------------------------ */
+  /* CONTENIDO GENERAL                                */
+  /* ------------------------------------------------ */
+  .contenido{
+    background: transparent !important;
+    position: relative !important;
+    z-index: 1 !important;
+    margin-top:calc(var(--alturaHeader) + 70px);
+    padding:20px;
   }
-
-  .submenu button {
-    font-size: 13px;
-    padding: 6px;
+  .seccion, .seccion-extra{
+    background: transparent !important;
+    position: relative !important;
+    z-index: 1 !important;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    height: auto !important;
+    min-height: 0 !important;
   }
-}
+  
+  /* Galería de productos */
+  .galeria{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+  }
+  .producto{
+    width:150px;
+    background:#fff;
+    padding:10px;
+    border-radius:10px;
+    box-shadow:0 0 5px rgba(0,0,0,0.2);
+    text-align:center;
+  }
+  .producto img{
+    width:100%;
+    border-radius:10px;
+  }
+  
+  /* SLIDER HOME */
+  .slider-contenedor{
+    width:100%;
+    max-width:600px;
+    margin:0 auto;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+  .slide{
+    display:none;
+    width:100%;
+  }
+  .slide.activo{
+    display:block;
+  }
+  .slide img{
+    width:100%;
+    height:auto;
+    display:block;
+  }
+  .puntos{
+    position:absolute;
+    bottom:10px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:5px;
+    z-index:10;
+  }
+  .punto{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:#999;
+    cursor:pointer;
+  }
+  .punto.activo{
+    background:#333;
+  }
+  
+  /* ------------------------------------------------ */
+  /* RESPONSIVE MOVIL                                 */
+  /* ------------------------------------------------ */
+  @media(max-width:800px){
+    .menu{
+      width:200px;
+      left:-240px; /* oculto por defecto */
+    }
+    .menu.activo{
+      left:0;
+    }
+    .contenido{
+      margin-left:0;
+      padding:10px;
+    }
+    .slider-contenedor{
+      max-width:100%;
+    }
+    .producto{
+      width:45%;
+    }
+    .search-box input{
+      width:120px;
+    }
+    .menu-top-bar{
+      flex-wrap:wrap;
+    }
+    .topbar{
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:5px;
+    }
+    .logo-top img{
+      height:40px;
+    }
+    .telefono-box{
+      width:100%;
+      text-align:center;
+      margin-top:5px;
+      font-size:15px;
+    }
+    .menu button{
+      font-size:14px;
+      padding:8px;
+    }
+    .submenu button{
+      font-size:13px;
+      padding:6px;
+    }
+    /* Submenú móvil */
+    .submenu{
+      background:#dcdcdc;
+      border-radius:8px;
+      padding:10px;
+      display:none;
+    }
+    .submenu.activo{
+      display:block;
+    }
+  }
+  
+  /* En PC (>800px) el contenido se corre a la derecha del menú */
+  @media(min-width:801px){
+    .contenido{
+      margin-left:260px;
+      margin-top:calc(var(--alturaHeader) + 70px);
+    }
+    .menu{
+      left:0;
+    }
+  }
+  /* ====== FIX DEFINITIVO: SECCIONES OCULTAS POR DEFECTO ====== */
 
 
+
+  
 </style>
-</head>
-
 <body>
-  <body onload="abrirMenuHome()">
+  
 
 
 
 
-    <!-- TOP BAR -->
-    <div class="topbar">
-      <div class="logo-top">
-        <img src="logo.jpeg" alt="Logo">
-      </div>
-    
-      <div class="search-box">
-          <input type="text" id="buscador" placeholder="Buscar productos..." oninput="filterSections(this.value)">
-          <button class="btn-search">🔍</button>
-      </div>
-    
-      <div class="telefono-box">
-          📞 351 203-0466
-      </div>
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="logo-top">
+      <img src="logo.jpeg" alt="Logo">
     </div>
-    
-    <!-- MENU SUPERIOR -->
-    <div class="menu-top-bar">
-      <button onclick="toggleMenu()">☰ Categorías</button>
-      <button onclick="mostrarExtra('home')">Home</button>
-      <button onclick="mostrarExtra('ofertas')">Ofertas</button>
-      <button onclick="mostrarExtra('novedades')">Novedades</button>
-      <button onclick="mostrarExtra('destacados')">Destacados</button>
-      <button onclick="mostrarExtra('contacto')">Contacto</button>
+  
+    <div class="search-box">
+        <input type="text" id="buscador" placeholder="Buscar productos..." oninput="filterSections(this.value)">
+        <button class="btn-search">🔍</button>
     </div>
-    
-    <!-- MENÚ LATERAL -->
-    <div class="menu abierto" id="menuLateral">
-      <button class="cerrar-menu" onclick="toggleMenu()">✖ Cerrar</button>
-      <h1>Categorías</h1>
-      
-      <button onclick="toggleSubmenu(this)">Audio ▼</button>
-      <div class="submenu">
-          <button onclick="mostrar('Accesorios multimedia')">Accesorios multimedia</button>
-          <button onclick="mostrar('Auriculares')">Auriculares</button>
-          <button onclick="mostrar('Microfonos')">Micrófonos</button>
-          <button onclick="mostrar('Car audio')">Car audio</button>
-          <button onclick="mostrar('Accesorios para television')">Accesorios para televisión</button>
-          <button onclick="mostrar('Cables armados para audio')">Cables armados para audio</button>
-          <button onclick="mostrar('Desarrollo y reparacion')">Desarrollo y reparación</button>
-          <button onclick="mostrar('Parlantes,woofers y tweeters')">Parlantes, woofers y tweeters</button>
-      </div>
-    
-      <button onclick="toggleSubmenu(this)">Electricidad ▼</button>
-      <div class="submenu">
-          <button onclick="mostrar('Accesorios para telefonia y  red')">Accesorios para telefonía y red</button>
-          <button onclick="mostrar('Baterias,pilas y accesorios')">Baterías, pilas y accesorios</button>
-          <button onclick="mostrar('Fichas llaves y conectores')">Fichas, llaves y conectores</button>
-          <button onclick="mostrar('Herramientas')">Herramientas</button>
-          <button onclick="mostrar('Cables y accesorios')">Cables y accesorios</button>
-          <button onclick="mostrar('Fuentes y transformadores')">Fuentes y transformadores</button>
-          <button onclick="mostrar('Pequeños electrodomesticos')">Pequeños electrodomésticos</button>
-      </div>
-    
-      <button onclick="toggleSubmenu(this)">Electronica ▼</button>
-      <div class="submenu">
-          <button onclick="mostrar('Accesorios para tv,led,lcd')">Accesorios para TV, LED, LCD</button>
-          <button onclick="mostrar('Componentes electronicos')">Componentes electrónicos</button>
-          <button onclick="mostrar('Fichas y adptadores')">Fichas y adaptadores</button>
-          <button onclick="mostrar('Repuestos para tv')">Repuestos para TV</button>
-          <button onclick="mostrar('Cables armados')">Cables armados</button>
-          <button onclick="mostrar('Energia alternativa')">Energía alternativa</button>
-          <button onclick="mostrar('Gabinetes plasticos y gabetas')">Gabinetes plásticos y gabetas</button>
-          <button onclick="mostrar('Repuestos y accesorios varios')">Repuestos y accesorios varios</button>
-      </div>
-    
-      <button onclick="toggleSubmenu(this)">Iluminación ▼</button>
-      <div class="submenu">
-          <button onclick="mostrar('Accesorios para iluminacion')">Accesorios para iluminación</button>
-          <button onclick="mostrar('Barrales led de aluminio')">Barrales LED de aluminio</button>
-          <button onclick="mostrar('Campanas led')">Campanas LED</button>
-          <button onclick="mostrar('Dicroicas led')">Dicroicas LED</button>
-          <button onclick="mostrar('Iluminacion vial')">Iluminación vial</button>
-          <button onclick="mostrar('Modulos led')">Módulos LED</button>
-          <button onclick="mostrar('Plaquetas de reemplazo led')">Plaquetas de reemplazo LED</button>
-          <button onclick="mostrar('Tubos led')">Tubos LED</button>
-          <button onclick="mostrar('Artefactos led')">Artefactos LED</button>
-          <button onclick="mostrar('Barras led')">Barras LED</button>
-          <button onclick="mostrar('Cintas led')">Cintas LED</button>
-          <button onclick="mostrar('Empotrables led')">Empotrables LED</button>
-          <button onclick="mostrar('Lamparas led')">Lámparas LED</button>
-          <button onclick="mostrar('Plafones y apliques led')">Plafones y apliques LED</button>
-          <button onclick="mostrar('Reflectores led')">Reflectores LED</button>
-      </div>
-    
-      <button onclick="toggleSubmenu(this)">Instrumental ▼</button>
-      <div class="submenu">
-          <button onclick="mostrar('Accesorios para instrumental')">Accesorios para instrumental</button>
-          <button onclick="mostrar('Instrumentales varios')">Instrumentales varios</button>
-          <button onclick="mostrar('Osciloscopios digitales')">Osciloscopios digitales</button>
-          <button onclick="mostrar('Fuentes de laboratorio')">Fuentes de laboratorio</button>
-          <button onclick="mostrar('Multimetros')">Multímetros</button>
-          <button onclick="mostrar('Pinzas amperometricas')">Pinzas amperométricas</button>
-      </div>
-    
-      <button onclick="toggleSubmenu(this)">Seguridad ▼</button>
-      <div class="submenu">
-          <button onclick="mostrar('Camaras')">Cámaras</button>
-          <button onclick="mostrar('Alarmas')">Alarmas</button>
-      </div>
+  
+    <div class="telefono-box">
+        📞 351 203-0466
     </div>
-    
-    <!-- CONTENIDO -->
-    <div class="contenido">
-      <div id="home" class="seccion-extra home activa" style="display:block;">
-        <div class="slider-contenedor">
-           <!-- <div class="slide activo"><img src="video inicio/pinza amperometrica.jpeg" alt="Pinza amperométrica"></div>
-            <div class="slide"><img src="video inicio/crimpeadora.jpeg" alt="Crimpeadora"></div>
-            <div class="puntos">
-              <span class="punto activo" onclick="cambiarSlide(0)"></span>
-              <span class="punto" onclick="cambiarSlide(1)"></span>
-              <span class="punto" onclick="cambiarSlide(2)"></span>
-            </div>-->
-        </div>
-      </div>
-      <!-- SECCIONES EXTRA -->
-<div id="ofertas" class="seccion-extra" style="display:none;">
-  <h2>Ofertas</h2>
-  <div class="slider-contenedor">
-      <div class="slide activo"><img src="ofertas/oferta1.jpeg" alt="Oferta 1"></div>
-      <div class="slide"><img src="ofertas/oferta2.jpeg" alt="Oferta 2"></div>
-      <div class="slide"><img src="ofertas/oferta3.jpeg" alt="Oferta 3"></div>
-      <div class="puntos">
-        <span class="punto activo" onclick="cambiarSlideExtra(0, 'ofertas')"></span>
-        <span class="punto" onclick="cambiarSlideExtra(1, 'ofertas')"></span>
-        <span class="punto" onclick="cambiarSlideExtra(2, 'ofertas')"></span>
-      </div>
   </div>
+  
+  <!-- MENU SUPERIOR -->
+  <div class="menu-top-bar">
+    <button onclick="toggleMenu()">☰ Categorías</button>
+    <button onclick="mostrarExtra('home')">Home</button>
+    <button onclick="mostrarExtra('ofertas')">Ofertas</button>
+    <button onclick="mostrarExtra('novedades')">Novedades</button>
+    <button onclick="mostrarExtra('destacados')">Destacados</button>
+    <button onclick="mostrarExtra('contacto')">Contacto</button>
+  </div>
+  
+  <!-- MENÚ LATERAL -->
+  <div class="menu abierto" id="menuLateral">
+    <button class="cerrar-menu" onclick="toggleMenu()">✖</button>
+    <h1>Categorías</h1>
+    
+    <button onclick="toggleSubmenu(this)">Audio ▼</button>
+    <div class="submenu">
+        <button onclick="mostrar('Accesorios multimedia')">Accesorios multimedia</button>
+        <button onclick="mostrar('Auriculares')">Auriculares</button>
+        <button onclick="mostrar('Microfonos')">Micrófonos</button>
+        <button onclick="mostrar('Car audio')">Car audio</button>
+        <button onclick="mostrar('Accesorios para television')">Accesorios para televisión</button>
+        <button onclick="mostrar('Cables armados para audio')">Cables armados para audio</button>
+        <button onclick="mostrar('Desarrollo y reparacion')">Desarrollo y reparación</button>
+        <button onclick="mostrar('Parlantes,woofers y tweeters')">Parlantes, woofers y tweeters</button>
+    </div>
+  
+    <button onclick="toggleSubmenu(this)">Electricidad ▼</button>
+    <div class="submenu">
+        <button onclick="mostrar('Accesorios para telefonia y  red')">Accesorios para telefonía y red</button>
+        <button onclick="mostrar('Baterias,pilas y accesorios')">Baterías, pilas y accesorios</button>
+        <button onclick="mostrar('Fichas llaves y conectores')">Fichas, llaves y conectores</button>
+        <button onclick="mostrar('Herramientas')">Herramientas</button>
+        <button onclick="mostrar('Cables y accesorios')">Cables y accesorios</button>
+        <button onclick="mostrar('Fuentes y transformadores')">Fuentes y transformadores</button>
+        <button onclick="mostrar('Pequeños electrodomesticos')">Pequeños electrodomésticos</button>
+    </div>
+  
+    <button onclick="toggleSubmenu(this)">Electronica ▼</button>
+    <div class="submenu">
+        <button onclick="mostrar('Accesorios para tv,led,lcd')">Accesorios para TV, LED, LCD</button>
+        <button onclick="mostrar('Componentes electronicos')">Componentes electrónicos</button>
+        <button onclick="mostrar('Fichas y adptadores')">Fichas y adaptadores</button>
+        <button onclick="mostrar('Repuestos para tv')">Repuestos para TV</button>
+        <button onclick="mostrar('Cables armados')">Cables armados</button>
+        <button onclick="mostrar('Energia alternativa')">Energía alternativa</button>
+        <button onclick="mostrar('Gabinetes plasticos y gabetas')">Gabinetes plásticos y gabetas</button>
+        <button onclick="mostrar('Repuestos y accesorios varios')">Repuestos y accesorios varios</button>
+    </div>
+  
+    <button onclick="toggleSubmenu(this)">Iluminación ▼</button>
+    <div class="submenu">
+        <button onclick="mostrar('Accesorios para iluminacion')">Accesorios para iluminación</button>
+        <button onclick="mostrar('Barrales led de aluminio')">Barrales LED de aluminio</button>
+        <button onclick="mostrar('Campanas led')">Campanas LED</button>
+        <button onclick="mostrar('Dicroicas led')">Dicroicas LED</button>
+        <button onclick="mostrar('Iluminacion vial')">Iluminación vial</button>
+        <button onclick="mostrar('Modulos led')">Módulos LED</button>
+        <button onclick="mostrar('Plaquetas de reemplazo led')">Plaquetas de reemplazo LED</button>
+        <button onclick="mostrar('Tubos led')">Tubos LED</button>
+        <button onclick="mostrar('Artefactos led')">Artefactos LED</button>
+        <button onclick="mostrar('Barras led')">Barras LED</button>
+        <button onclick="mostrar('Cintas led')">Cintas LED</button>
+        <button onclick="mostrar('Empotrables led')">Empotrables LED</button>
+        <button onclick="mostrar('Lamparas led')">Lámparas LED</button>
+        <button onclick="mostrar('Plafones y apliques led')">Plafones y apliques LED</button>
+        <button onclick="mostrar('Reflectores led')">Reflectores LED</button>
+    </div>
+  
+    <button onclick="toggleSubmenu(this)">Instrumental ▼</button>
+    <div class="submenu">
+        <button onclick="mostrar('Accesorios para instrumental')">Accesorios para instrumental</button>
+        <button onclick="mostrar('Instrumentales varios')">Instrumentales varios</button>
+        <button onclick="mostrar('Osciloscopios digitales')">Osciloscopios digitales</button>
+        <button onclick="mostrar('Fuentes de laboratorio')">Fuentes de laboratorio</button>
+        <button onclick="mostrar('Multimetros')">Multímetros</button>
+        <button onclick="mostrar('Pinzas amperometricas')">Pinzas amperométricas</button>
+    </div>
+  
+    <button onclick="toggleSubmenu(this)">Seguridad ▼</button>
+    <div class="submenu">
+        <button onclick="mostrar('Camaras')">Cámaras</button>
+        <button onclick="mostrar('Alarmas')">Alarmas</button>
+    </div>
+  </div>
+  
+  <!-- CONTENIDO -->
+  <div class="contenido">
+    <div id="home" class="seccion-extra home activa" style="display:block;">
+      <div class="slider-contenedor">
+         <!-- <div class="slide activo"><img src="video inicio/pinza amperometrica.jpeg" alt="Pinza amperométrica"></div>
+          <div class="slide"><img src="video inicio/crimpeadora.jpeg" alt="Crimpeadora"></div>
+          <div class="puntos">
+            <span class="punto activo" onclick="cambiarSlide(0)"></span>
+            <span class="punto" onclick="cambiarSlide(1)"></span>
+            <span class="punto" onclick="cambiarSlide(2)"></span>
+          </div>-->
+      </div>
+    </div>
+    <!-- SECCIONES EXTRA -->
+<div id="ofertas" class="seccion-extra" style="display:none;">
+<h2>Ofertas</h2>
+<div class="slider-contenedor">
+    <div class="slide activo"><img src="ofertas/oferta1.jpeg" alt="Oferta 1"></div>
+    <div class="slide"><img src="ofertas/oferta2.jpeg" alt="Oferta 2"></div>
+    <div class="slide"><img src="ofertas/oferta3.jpeg" alt="Oferta 3"></div>
+    <div class="puntos">
+      <span class="punto activo" onclick="cambiarSlideExtra(0, 'ofertas')"></span>
+      <span class="punto" onclick="cambiarSlideExtra(1, 'ofertas')"></span>
+      <span class="punto" onclick="cambiarSlideExtra(2, 'ofertas')"></span>
+    </div>
+</div>
 </div>
 
 <div id="novedades" class="seccion-extra" style="display:none;">
-  <h2>Novedades</h2>
-  <div class="slider-contenedor">
-      <div class="slide activo"><img src="novedades/novedad1.jpeg" alt="Novedad 1"></div>
-      <div class="slide"><img src="novedades/novedad2.jpeg" alt="Novedad 2"></div>
-      <div class="slide"><img src="novedades/novedad3.jpeg" alt="Novedad 3"></div>
-      <div class="puntos">
-        <span class="punto activo" onclick="cambiarSlideExtra(0, 'novedades')"></span>
-        <span class="punto" onclick="cambiarSlideExtra(1, 'novedades')"></span>
-        <span class="punto" onclick="cambiarSlideExtra(2, 'novedades')"></span>
-      </div>
-  </div>
+<h2>Novedades</h2>
+<div class="slider-contenedor">
+    <div class="slide activo"><img src="novedades/novedad1.jpeg" alt="Novedad 1"></div>
+    <div class="slide"><img src="novedades/novedad2.jpeg" alt="Novedad 2"></div>
+    <div class="slide"><img src="novedades/novedad3.jpeg" alt="Novedad 3"></div>
+    <div class="puntos">
+      <span class="punto activo" onclick="cambiarSlideExtra(0, 'novedades')"></span>
+      <span class="punto" onclick="cambiarSlideExtra(1, 'novedades')"></span>
+      <span class="punto" onclick="cambiarSlideExtra(2, 'novedades')"></span>
+    </div>
+</div>
 </div>
 
 <div id="destacados" class="seccion-extra" style="display:none;">
-  <h2>Destacados</h2>
-  <div class="slider-contenedor">
-      <div class="slide activo"><img src="destacados/destacado1.jpeg" alt="Destacado 1"></div>
-      <div class="slide"><img src="destacados/destacado2.jpeg" alt="Destacado 2"></div>
-      <div class="slide"><img src="destacados/destacado3.jpeg" alt="Destacado 3"></div>
-      <div class="puntos">
-        <span class="punto activo" onclick="cambiarSlideExtra(0, 'destacados')"></span>
-        <span class="punto" onclick="cambiarSlideExtra(1, 'destacados')"></span>
-        <span class="punto" onclick="cambiarSlideExtra(2, 'destacados')"></span>
-      </div>
-  </div>
+<h2>Destacados</h2>
+<div class="slider-contenedor">
+    <div class="slide activo"><img src="destacados/destacado1.jpeg" alt="Destacado 1"></div>
+    <div class="slide"><img src="destacados/destacado2.jpeg" alt="Destacado 2"></div>
+    <div class="slide"><img src="destacados/destacado3.jpeg" alt="Destacado 3"></div>
+    <div class="puntos">
+      <span class="punto activo" onclick="cambiarSlideExtra(0, 'destacados')"></span>
+      <span class="punto" onclick="cambiarSlideExtra(1, 'destacados')"></span>
+      <span class="punto" onclick="cambiarSlideExtra(2, 'destacados')"></span>
+    </div>
+</div>
 </div>
 
+  <div id="lateral-secciones">
     
-      <!-- SECCIONES -->
-      <div id="Accesorios multimedia" class="seccion"><h2>Accesorios multimedia</h2></div>
-      <div id="Auriculares" class="seccion"><h2>Auriculares</h2></div>
-      <div id="Microfonos" class="seccion"><h2>Micrófonos</h2></div>
-      <div id="Car audio" class="seccion"><h2>Car audio</h2></div>
-      <div id="Accesorios para television" class="seccion"><h2>Accesorios para televisión</h2></div>
-      <div id="Cables armados para audio" class="seccion"><h2>Cables armados para audio</h2></div>
-      <div id="Desarrollo y reparacion" class="seccion"><h2>Desarrollo y reparación</h2></div>
-      <div id="Parlantes,woofers y tweeters" class="seccion"><h2>Parlantes, woofers y tweeters</h2></div>
-    
-      <div id="Accesorios para telefonia y  red" class="seccion"><h2>Accesorios para telefonía y red</h2></div>
-      <div id="Baterias,pilas y accesorios" class="seccion"><h2>Baterías, pilas y accesorios</h2></div>
-      <div id="Fichas llaves y conectores" class="seccion"><h2>Fichas, llaves y conectores</h2></div>
-      <div id="Herramientas" class="seccion"><h2>Herramientas</h2></div>
-      <div id="Cables y accesorios" class="seccion"><h2>Cables y accesorios</h2></div>
-      <div id="Fuentes y transformadores" class="seccion"><h2>Fuentes y transformadores</h2></div>
-      <div id="Pequeños electrodomesticos" class="seccion"><h2>Pequeños electrodomésticos</h2></div>
-    
-      <div id="Accesorios para tv,led,lcd" class="seccion"><h2>Accesorios para TV, LED, LCD</h2></div>
-      <div id="Componentes electronicos" class="seccion"><h2>Componentes electrónicos</h2></div>
-      <div id="Fichas y adptadores" class="seccion"><h2>Fichas y adaptadores</h2></div>
-      <div id="Repuestos para tv" class="seccion"><h2>Repuestos para TV</h2></div>
-      <div id="Cables armados" class="seccion"><h2>Cables armados</h2></div>
-      <div id="Energia alternativa" class="seccion"><h2>Energía alternativa</h2></div>
-      <div id="Gabinetes plasticos y gabetas" class="seccion"><h2>Gabinetes plásticos y gabetas</h2></div>
-      <div id="Repuestos y accesorios varios" class="seccion"><h2>Repuestos y accesorios varios</h2></div>
-    
-      <div id="Accesorios para iluminacion" class="seccion"><h2>Accesorios para iluminación</h2></div>
-      <div id="Barrales led de aluminio" class="seccion"><h2>Barrales LED de aluminio</h2></div>
-      <div id="Campanas led" class="seccion"><h2>Campanas LED</h2></div>
-      <div id="Dicroicas led" class="seccion"><h2>Dicroicas LED</h2></div>
-      <div id="Iluminacion vial" class="seccion"><h2>Iluminación vial</h2></div>
-      <div id="Modulos led" class="seccion"><h2>Módulos LED</h2></div>
-      <div id="Plaquetas de reemplazo led" class="seccion"><h2>Plaquetas de reemplazo LED</h2></div>
-      <div id="Tubos led" class="seccion"><h2>Tubos LED</h2></div>
-      <div id="Artefactos led" class="seccion"><h2>Artefactos LED</h2></div>
-      <div id="Barras led" class="seccion"><h2>Barras LED</h2></div>
-      <div id="Cintas led" class="seccion"><h2>Cintas LED</h2></div>
-      <div id="Empotrables led" class="seccion"><h2>Empotrables LED</h2></div>
-      <div id="Lamparas led" class="seccion"><h2>Lámparas LED</h2></div>
-      <div id="Plafones y apliques led" class="seccion"><h2>Plafones y apliques LED</h2></div>
-      <div id="Reflectores led" class="seccion"><h2>Reflectores LED</h2></div>
-    
-      <div id="Accesorios para instrumental" class="seccion"><h2>Accesorios para instrumental</h2></div>
-      <div id="Instrumentales varios" class="seccion"><h2>Instrumentales varios</h2></div>
-      <div id="Osciloscopios digitales" class="seccion"><h2>Osciloscopios digitales</h2></div>
-      <div id="Fuentes de laboratorio" class="seccion"><h2>Fuentes de laboratorio</h2></div>
-      <div id="Multimetros" class="seccion"><h2>Multímetros</h2></div>
-      <div id="Pinzas amperometricas" class="seccion"><h2>Pinzas amperométricas</h2></div>
-    
-      <div id="Camaras" class="seccion"><h2>Cámaras</h2></div>
-      <div id="Alarmas" class="seccion"><h2>Alarmas</h2></div>
-    
-    </div>
-    
-    
-    
-
-
+    <div id="Accesorios multimedia" class="seccion"><h2>Accesorios multimedia</h2></div>
+    <div id="Auriculares" class="seccion"><h2>Auriculares</h2></div>
+    <div id="Microfonos" class="seccion"><h2>Micrófonos</h2></div>
+    <div id="Car audio" class="seccion"><h2>Car audio</h2></div>
+    <div id="Accesorios para television" class="seccion"><h2>Accesorios para televisión</h2></div>
+    <div id="Cables armados para audio" class="seccion"><h2>Cables armados para audio</h2></div>
+    <div id="Desarrollo y reparacion" class="seccion"><h2>Desarrollo y reparación</h2></div>
+    <div id="Parlantes,woofers y tweeters" class="seccion"><h2>Parlantes, woofers y tweeters</h2></div>
+  
+    <div id="Accesorios para telefonia y  red" class="seccion"><h2>Accesorios para telefonía y red</h2></div>
+    <div id="Baterias,pilas y accesorios" class="seccion"><h2>Baterías, pilas y accesorios</h2></div>
+    <div id="Fichas llaves y conectores" class="seccion"><h2>Fichas, llaves y conectores</h2></div>
+    <div id="Herramientas" class="seccion"><h2>Herramientas</h2></div>
+    <div id="Cables y accesorios" class="seccion"><h2>Cables y accesorios</h2></div>
+    <div id="Fuentes y transformadores" class="seccion"><h2>Fuentes y transformadores</h2></div>
+    <div id="Pequeños electrodomesticos" class="seccion"><h2>Pequeños electrodomésticos</h2></div>
+  
+    <div id="Accesorios para tv,led,lcd" class="seccion"><h2>Accesorios para TV, LED, LCD</h2></div>
+    <div id="Componentes electronicos" class="seccion"><h2>Componentes electrónicos</h2></div>
+    <div id="Fichas y adptadores" class="seccion"><h2>Fichas y adaptadores</h2></div>
+    <div id="Repuestos para tv" class="seccion"><h2>Repuestos para TV</h2></div>
+    <div id="Cables armados" class="seccion"><h2>Cables armados</h2></div>
+    <div id="Energia alternativa" class="seccion"><h2>Energía alternativa</h2></div>
+    <div id="Gabinetes plasticos y gabetas" class="seccion"><h2>Gabinetes plásticos y gabetas</h2></div>
+    <div id="Repuestos y accesorios varios" class="seccion"><h2>Repuestos y accesorios varios</h2></div>
+  
+    <div id="Accesorios para iluminacion" class="seccion"><h2>Accesorios para iluminación</h2></div>
+    <div id="Barrales led de aluminio" class="seccion"><h2>Barrales LED de aluminio</h2></div>
+    <div id="Campanas led" class="seccion"><h2>Campanas LED</h2></div>
+    <div id="Dicroicas led" class="seccion"><h2>Dicroicas LED</h2></div>
+    <div id="Iluminacion vial" class="seccion"><h2>Iluminación vial</h2></div>
+    <div id="Modulos led" class="seccion"><h2>Módulos LED</h2></div>
+    <div id="Plaquetas de reemplazo led" class="seccion"><h2>Plaquetas de reemplazo LED</h2></div>
+    <div id="Tubos led" class="seccion"><h2>Tubos LED</h2></div>
+    <div id="Artefactos led" class="seccion"><h2>Artefactos LED</h2></div>
+    <div id="Barras led" class="seccion"><h2>Barras LED</h2></div>
+    <div id="Cintas led" class="seccion"><h2>Cintas LED</h2></div>
+    <div id="Empotrables led" class="seccion"><h2>Empotrables LED</h2></div>
+    <div id="Lamparas led" class="seccion"><h2>Lámparas LED</h2></div>
+    <div id="Plafones y apliques led" class="seccion"><h2>Plafones y apliques LED</h2></div>
+    <div id="Reflectores led" class="seccion"><h2>Reflectores LED</h2></div>
+  
+    <div id="Accesorios para instrumental" class="seccion"><h2>Accesorios para instrumental</h2></div>
+    <div id="Instrumentales varios" class="seccion"><h2>Instrumentales varios</h2></div>
+    <div id="Osciloscopios digitales" class="seccion"><h2>Osciloscopios digitales</h2></div>
+    <div id="Fuentes de laboratorio" class="seccion"><h2>Fuentes de laboratorio</h2></div>
+    <div id="Multimetros" class="seccion"><h2>Multímetros</h2></div>
+    <div id="Pinzas amperometricas" class="seccion"><h2>Pinzas amperométricas</h2></div>
+  
+    <div id="Camaras" class="seccion"><h2>Cámaras</h2></div>
+    <div id="Alarmas" class="seccion"><h2>Alarmas</h2></div>
+  </div>
+  
+  
+  
+  
+<!-- JAVASCRIPT -->
 <!-- JAVASCRIPT -->
 <script>
   function toggleMenu(){
     document.getElementById("menuLateral").classList.toggle("activo");
   }
   
-  /* SUBMENÚS */
+  /* SUBMENÚS – acordeón en PC y móvil */
   function toggleSubmenu(boton){
     const submenu = boton.nextElementSibling;
-    document.querySelectorAll(".submenu").forEach(s=>{
-      if(s!==submenu) s.style.display="none";
+  
+    // Cerrar TODOS los submenús menos este
+    document.querySelectorAll(".menu .submenu").forEach(s => {
+      if (s !== submenu) {
+        s.classList.remove("activo");
+        s.style.display = "none";
+      }
     });
-    submenu.style.display = submenu.style.display==="block" ? "none" : "block";
+  
+    // Abrir/cerrar el submenú clickeado
+    submenu.classList.toggle("activo");
+    submenu.style.display = submenu.classList.contains("activo") ? "block" : "none";
+  }
+  
+  /* CERRAR SUBMENUS EN CAMBIO DE SECCIÓN */
+  function cerrarSubmenusSecciones() {
+    document.querySelectorAll(".menu .submenu").forEach(sub => {
+      sub.classList.remove("activo");
+      sub.style.display = "none";
+    });
   }
   
   /* SLIDER */
@@ -765,6 +631,8 @@ body{
   
   // FUNCION PARA MOSTRAR SECCION CON GALERIA DINAMICA
   function mostrar(id){
+    cerrarSubmenusSecciones(); // cerramos submenus al cambiar de sección
+  
     // ocultar todas las secciones
     document.querySelectorAll(".seccion, .seccion-extra").forEach(s=>s.style.display="none");
   
@@ -780,9 +648,8 @@ body{
   
     seccion.style.display = "block";
   
-    // cerrar menú y submenús
+    // cerrar menú lateral
     document.getElementById("menuLateral").classList.remove("activo");
-    document.querySelectorAll(".submenu").forEach(s=>s.style.display="none");
   
     // agregar galería si no existe
     let galeria = seccion.querySelector(".galeria");
@@ -815,36 +682,59 @@ body{
   }
   
   // BUSCADOR EN TIEMPO REAL
+  // BUSCADOR EN TIEMPO REAL
   const buscador = document.getElementById("buscador");
-  buscador.addEventListener("input", function(){
-    const texto = this.value.toLowerCase();
-    let seccion = document.getElementById("busquedaResultados");
-    if(!seccion){
-      seccion = document.createElement("div");
-      seccion.id = "busquedaResultados";
-      seccion.className = "seccion";
-      document.querySelector(".contenido").appendChild(seccion);
-    }
-    seccion.innerHTML="<h2>Resultados de búsqueda</h2><div class='galeria'></div>";
-    const galeria = seccion.querySelector(".galeria");
-    const filtrados = productos.filter(p=>p.nombre.toLowerCase().includes(texto));
-    filtrados.forEach(p=>{
-      const div = document.createElement("div");
-      div.classList.add("producto");
-      div.innerHTML=`<img src="${p.img}" alt="${p.nombre}"><p>${p.nombre}</p>`;
-      galeria.appendChild(div);
-    });
-    document.querySelectorAll(".seccion, .seccion-extra").forEach(s=>s.style.display="none");
-    seccion.style.display="block";
+  
+  buscador.addEventListener("input", function () {
+  const texto = this.value.toLowerCase();
+  
+  // Si el buscador está vacío → volver a la sección anterior y borrar resultados
+  if (texto.trim() === "") {
+    const resultados = document.getElementById("busquedaResultados");
+    if (resultados) resultados.remove();
+  
+    // Restaurar HOME (o la última sección principal visible)
+    document.querySelectorAll(".seccion-extra").forEach(s => s.style.display = "none");
+    document.getElementById("home").style.display = "block";
+  
+    return; // salir y no seguir buscando
+  }
+  
+  cerrarSubmenusSecciones(); // cerramos submenus al buscar
+  
+  let seccion = document.getElementById("busquedaResultados");
+  if (!seccion) {
+    seccion = document.createElement("div");
+    seccion.id = "busquedaResultados";
+    seccion.className = "seccion";
+    document.querySelector(".contenido").appendChild(seccion);
+  }
+  
+  seccion.innerHTML = "<h2>Resultados de búsqueda</h2><div class='galeria'></div>";
+  const galeria = seccion.querySelector(".galeria");
+  
+  const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(texto));
+  
+  filtrados.forEach(p => {
+    const div = document.createElement("div");
+    div.classList.add("producto");
+    div.innerHTML = `<img src="${p.img}" alt="${p.nombre}"><p>${p.nombre}</p>`;
+    galeria.appendChild(div);
   });
   
-  // MOSTRAR EXTRAS (home, ofertas, etc)
+  // Ocultar todas las demás secciones mientras se buscan productos
+  document.querySelectorAll(".seccion-extra, .contenido .seccion").forEach(s => s.style.display = "none");
   
+  
+  seccion.style.display = "block";
+  });
+  
+  
+  // MOSTRAR EXTRAS (home, ofertas, etc)
   function mostrarExtra(seccion) {
-    // Ocultar todas las secciones
+    cerrarSubmenusSecciones(); // cerramos submenus al cambiar de extra
+  
     document.querySelectorAll('.seccion-extra').forEach(sec => sec.style.display = 'none');
-    
-    // Mostrar la sección seleccionada
     document.getElementById(seccion).style.display = 'block';
   
     const menuLateral = document.getElementById('menuLateral');
@@ -855,43 +745,102 @@ body{
       menuLateral.classList.remove('abierto'); // menú colapsado en otras secciones
     }
   }
+  
   function abrirMenuHome() {
     const menu = document.getElementById("menuLateral");
     const home = document.getElementById("home");
-
-    // Solo si la sección home está visible al iniciar
+  
     if (home.style.display === "block") {
         menu.classList.add("activo");
     }
   }
-  {let indiceSlide = 0;
-const slides = document.querySelectorAll(".slide");
-const puntos = document.querySelectorAll(".punto");
-
-function mostrarSlide(n) {
-  slides.forEach((s, i) => {
-    s.classList.toggle("activo", i === n);
-    puntos[i].classList.toggle("activo", i === n);
-  });
-}
-
-function siguienteSlide() {
-  indiceSlide = (indiceSlide + 1) % slides.length;
-  mostrarSlide(indiceSlide);
-}
-
-// Avanzar automáticamente cada 3 segundos
-setInterval(siguienteSlide, 3000);
-
-// Puntos clickeables
-puntos.forEach((p, i) => {
-  p.addEventListener("click", () => {
-    indiceSlide = i;
-    mostrarSlide(indiceSlide);
-  });
-});
-
-// Mostrar el primer slide al inicio
-mostrarSlide(indiceSlide);}
-  </script>
   
+  /* SLIDER HOME */
+  let indiceSlide = 0;
+  const slidesHome = document.querySelectorAll(".slide");
+  const puntosHome = document.querySelectorAll(".punto");
+  
+  function mostrarSlide(n) {
+    slidesHome.forEach((s, i) => {
+      s.classList.toggle("activo", i === n);
+      puntosHome[i].classList.toggle("activo", i === n);
+    });
+  }
+  
+  function siguienteSlide() {
+    indiceSlide = (indiceSlide + 1) % slidesHome.length;
+    mostrarSlide(indiceSlide);
+  }
+  
+  setInterval(siguienteSlide, 3000);
+  
+  puntosHome.forEach((p, i) => {
+    p.addEventListener("click", () => {
+      indiceSlide = i;
+      mostrarSlide(indiceSlide);
+    });
+  });
+  
+  mostrarSlide(indiceSlide);
+  
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 800) {
+      document.querySelectorAll(".menu .submenu").forEach(s => {
+          s.classList.remove("activo");
+          s.style.display = "none";
+      });
+    }
+  });
+  
+  
+    // Toggle menú lateral
+    function toggleMenu() {
+      document.getElementById('menuLateral').classList.toggle('activo');
+    }
+  
+    // Mostrar sección lateral
+    // Mostrar sección lateral (renombrada para no romper productos)
+  function mostrarLateral(nombreSeccion) {
+    document.querySelectorAll('#lateral-secciones .seccion').forEach(s => s.style.display = 'none');
+  
+    const seccion = document.getElementById(nombreSeccion);
+    if (seccion) seccion.style.display = 'block';
+  }
+  
+  
+    // Mostrar sección principal (Home, Ofertas, Novedades, Destacados, Contacto)
+    function mostrarExtra(nombreSeccion) {
+      // Oculta todas las secciones-extra
+      document.querySelectorAll('.seccion-extra').forEach(s => s.style.display = 'none');
+      const seccion = document.getElementById(nombreSeccion);
+      if (seccion) seccion.style.display = 'block';
+  
+      // Cierra todas las secciones laterales cuando se cambia la sección principal
+      document.querySelectorAll('#lateral-secciones .seccion').forEach(s => s.style.display = 'none');
+  
+      // Cierra todos los submenús del lateral
+      document.querySelectorAll('.submenu').forEach(s => s.classList.remove('activo'));
+    }
+  
+    // Filtrar secciones laterales
+    function filterSections(valor) {
+      const busqueda = valor.toLowerCase();
+      document.querySelectorAll('#lateral-secciones .seccion').forEach(s => {
+        if (s.id.toLowerCase().includes(busqueda)) {
+          s.style.display = 'block';
+        } else {
+          s.style.display = 'none';
+        }
+      });
+  
+      // Opcional: cerrar submenús
+      document.querySelectorAll('.submenu').forEach(s => s.classList.remove('activo'));
+    }
+  
+    // Abrir Home al cargar
+    function abrirMenuHome() {
+      mostrarExtra('home');
+    }
+  
+  
+  </script>
