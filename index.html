@@ -30,13 +30,13 @@
     left:0;
     width:100%;
     height:auto;
-    background:#45d67d;
+    background:#C8E6C9;
     padding:10px;
     display:flex;
     align-items:center;
     justify-content:space-between;
     z-index:2000;
-    border-bottom:2px solid #30c975;
+    border-bottom:2px solid #C8E6C9;
   }
   .logo-top img{
     height:45px;
@@ -52,13 +52,13 @@
     padding:8px;
     width:200px;
     border-radius:10px;
-    border:1px solid #57f192;
+    border:1px solid #C8E6C9;
   }
   .search-box .btn-search{
     padding:8px 14px;
     border-radius:10px;
     border:none;
-    background:#49d167;
+    background:#C8E6C9;
     cursor:pointer;
   }
   .telefono-box{
@@ -79,14 +79,14 @@
     display:flex;
     gap:8px;
     justify-content:center;
-    border-bottom:2px solid #55f798;
+    border-bottom:2px solid #C8E6C9;
     z-index:1500;
   }
   .menu-top-bar button{
     padding:8px 12px;
     border-radius:10px;
     border:none;
-    background:#0dda7a;
+    background:#C8E6C9;
     cursor:pointer;
   }
   
@@ -99,7 +99,7 @@
     left:0;
     width:240px;
     height:calc(100% - var(--alturaHeader) - 50px);
-    background:#63e6a4;
+    background:#C8E6C9;
     box-shadow:2px 0 6px rgba(0,0,0,0.1);
     padding:10px;
     overflow-y:auto;
@@ -292,6 +292,51 @@
       left:0;
     }
   }
+  #menuLateral, #menuSubcategorias {
+    width: 220px;
+    background: #1f5a19;
+    color: #fff;
+    padding: 10px;
+    float: left;
+}
+
+#menuLateral ul, #menuSubcategorias ul {
+    list-style: none;
+    padding: 0;
+}
+
+#menuLateral li, #menuSubcategorias li {
+    padding: 8px;
+    cursor: pointer;
+    background: #68ddbd;
+    margin-bottom: 5px;
+    border-radius: 4px;
+}
+
+#menuLateral li:hover, #menuSubcategorias li:hover {
+    background: #444;
+}
+
+#contenidoProductos {
+    margin-left: 460px; /* ancho de ambos menús */
+    padding: 20px;
+}
+
+.producto {
+    display: inline-block;
+    width: 180px;
+    background: #f5f5f5;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.producto img {
+    width: 100%;
+    height: auto;
+}
+
   /* ====== FIX DEFINITIVO: SECCIONES OCULTAS POR DEFECTO ====== */
 
 
@@ -300,6 +345,23 @@
 </style>
 <body>
   
+<!-- MENÚ LATERAL -->
+<div id="menuLateral">
+  <h2>Categorías</h2>
+  <ul id="listaCategorias"></ul>
+</div>
+
+<!-- SUBMENÚ -->
+<div id="menuSubcategorias">
+  <h2>Subcategorías</h2>
+  <ul id="listaSubcategorias"></ul>
+</div>
+
+<!-- PRODUCTOS -->
+<div id="contenidoProductos">
+  <h2>Productos</h2>
+  <div id="listaProductos"></div>
+</div>
 
 
 
@@ -332,7 +394,7 @@
   
   <!-- MENÚ LATERAL -->
   <div class="menu abierto" id="menuLateral">
-    <button class="cerrar-menu" onclick="toggleMenu()">✖</button>
+    <!--<button class="cerrar-menu" onclick="toggleMenu()"></button>-->
     <h1>Categorías</h1>
     
     <button onclick="toggleSubmenu(this)">Audio ▼</button>
@@ -521,326 +583,184 @@
   
   
 <!-- JAVASCRIPT -->
-<!-- JAVASCRIPT -->
 <script>
+  const API = "http://localhost/celsius/api.php"; // tu API
+  
+  /* --------------------- MENÚ LATERAL --------------------- */
   function toggleMenu(){
     document.getElementById("menuLateral").classList.toggle("activo");
   }
   
-  /* SUBMENÚS – acordeón en PC y móvil */
+  /* SUBMENÚS – acordeón */
   function toggleSubmenu(boton){
     const submenu = boton.nextElementSibling;
-  
-    // Cerrar TODOS los submenús menos este
-    document.querySelectorAll(".menu .submenu").forEach(s => {
-      if (s !== submenu) {
+    document.querySelectorAll(".menu .submenu").forEach(s=>{
+      if(s!==submenu){
         s.classList.remove("activo");
-        s.style.display = "none";
+        s.style.display="none";
       }
     });
-  
-    // Abrir/cerrar el submenú clickeado
     submenu.classList.toggle("activo");
-    submenu.style.display = submenu.classList.contains("activo") ? "block" : "none";
+    submenu.style.display = submenu.classList.contains("activo")?"block":"none";
   }
   
-  /* CERRAR SUBMENUS EN CAMBIO DE SECCIÓN */
-  function cerrarSubmenusSecciones() {
-    document.querySelectorAll(".menu .submenu").forEach(sub => {
-      sub.classList.remove("activo");
-      sub.style.display = "none";
+  function cerrarSubmenusSecciones(){
+    document.querySelectorAll(".menu .submenu").forEach(s=>{
+      s.classList.remove("activo");
+      s.style.display="none";
     });
   }
   
-  /* SLIDER */
-  let indice = 0;
-  const slides = document.querySelectorAll(".slide");
-  const puntos = document.querySelectorAll(".punto");
-  function cambiarSlide(n){
-    slides.forEach(s=>s.classList.remove("activo"));
-    puntos.forEach(p=>p.classList.remove("activo"));
-    indice=n;
-    slides[n].classList.add("activo");
-    puntos[n].classList.add("activo");
-  }
-  function avanzar(){
-    indice++;
-    if(indice>=slides.length) indice=0;
-    cambiarSlide(indice);
-  }
-  setInterval(avanzar,4000);
-  
-  /* ALTURA HEADER AUTOMÁTICA */
-  function actualizarAlturaHeader() {
-    const header = document.querySelector(".topbar");
-    const alto = header.offsetHeight;
-    document.documentElement.style.setProperty("--alturaHeader", alto + "px");
-  }
-  window.addEventListener("load", actualizarAlturaHeader);
-  window.addEventListener("resize", actualizarAlturaHeader);
-  
-  // DATOS DE PRODUCTOS
-  const productos = [
-    {nombre:"Accesorio multimedia 1", categoria:"Accesorios multimedia", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Auriculares 1", categoria:"Auriculares", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Micrófono 1", categoria:"Microfonos", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Car audio 1", categoria:"Car audio", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Accesorio TV 1", categoria:"Accesorios para television", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Cable armado 1", categoria:"Cables armados para audio", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Reparación 1", categoria:"Desarrollo y reparacion", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Parlante 1", categoria:"Parlantes,woofers y tweeters", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Accesorio telefonía 1", categoria:"Accesorios para telefonia y  red", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Batería 1", categoria:"Baterias,pilas y accesorios", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Fichas 1", categoria:"Fichas llaves y conectores", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Herramienta 1", categoria:"Herramientas", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Cable 1", categoria:"Cables y accesorios", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Fuente 1", categoria:"Fuentes y transformadores", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Electrodoméstico 1", categoria:"Pequeños electrodomesticos", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Accesorio TV LED 1", categoria:"Accesorios para tv,led,lcd", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Componente 1", categoria:"Componentes electronicos", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Ficha/adaptador 1", categoria:"Fichas y adptadores", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Repuesto TV 1", categoria:"Repuestos para tv", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Cable armado 2", categoria:"Cables armados", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Energía 1", categoria:"Energia alternativa", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Gabinete 1", categoria:"Gabinetes plasticos y gabetas", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Repuesto varios 1", categoria:"Repuestos y accesorios varios", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Accesorio iluminación 1", categoria:"Accesorios para iluminacion", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Barral LED 1", categoria:"Barrales led de aluminio", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Campana LED 1", categoria:"Campanas led", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Dicroica LED 1", categoria:"Dicroicas led", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Iluminación vial 1", categoria:"Iluminacion vial", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Módulo LED 1", categoria:"Modulos led", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Plaqueta LED 1", categoria:"Plaquetas de reemplazo led", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Tubo LED 1", categoria:"Tubos led", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Artefacto LED 1", categoria:"Artefactos led", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Barra LED 1", categoria:"Barras led", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Cinta LED 1", categoria:"Cintas led", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Empotrable LED 1", categoria:"Empotrables led", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Lámpara LED 1", categoria:"Lamparas led", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Plafón LED 1", categoria:"Plafones y apliques led", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Reflector LED 1", categoria:"Reflectores led", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Accesorio instrumental 1", categoria:"Accesorios para instrumental", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Instrumental 1", categoria:"Instrumentales varios", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Osciloscopio 1", categoria:"Osciloscopios digitales", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Fuente laboratorio 1", categoria:"Fuentes de laboratorio", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Multímetro 1", categoria:"Multimetros", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Pinza amperométrica 1", categoria:"Pinzas amperometricas", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Cámara 1", categoria:"Camaras", img:"video inicio/placeholder.jpeg"},
-    {nombre:"Alarma 1", categoria:"Alarmas", img:"video inicio/placeholder.jpeg"},
-  ];
-  
-  // FUNCION PARA MOSTRAR SECCION CON GALERIA DINAMICA
-  function mostrar(id){
-    cerrarSubmenusSecciones(); // cerramos submenus al cambiar de sección
-  
-    // ocultar todas las secciones
-    document.querySelectorAll(".seccion, .seccion-extra").forEach(s=>s.style.display="none");
-  
-    // buscar sección
-    let seccion = document.getElementById(id);
-    if(!seccion){
-      // crear sección si no existe
-      seccion = document.createElement("div");
-      seccion.id = id;
-      seccion.className = "seccion";
-      document.querySelector(".contenido").appendChild(seccion);
-    }
-  
-    seccion.style.display = "block";
-  
-    // cerrar menú lateral
-    document.getElementById("menuLateral").classList.remove("activo");
-  
-    // agregar galería si no existe
-    let galeria = seccion.querySelector(".galeria");
-    if(!galeria){
-      seccion.innerHTML = `<h2>${id}</h2><div class="galeria"></div>`;
-      galeria = seccion.querySelector(".galeria");
-    }
-  
-    // llenar galería con productos de la categoría
-    productos.filter(p=>p.categoria===id).forEach(p=>{
-      const div = document.createElement("div");
-      div.classList.add("producto");
-      div.innerHTML = `<img src="${p.img}" alt="${p.nombre}"><p>${p.nombre}</p>`;
-      galeria.appendChild(div);
-    });
-  }
-  
-  // FUNCION PARA AGREGAR IMAGEN A SECCION DINAMICAMENTE
-  function agregarImagen(idSeccion, src, nombre=""){
-    let seccion = document.getElementById(idSeccion);
-    if(!seccion){
-      mostrar(idSeccion); // crea la sección si no existe
-      seccion = document.getElementById(idSeccion);
-    }
-    const galeria = seccion.querySelector(".galeria");
-    const div = document.createElement("div");
-    div.classList.add("producto");
-    div.innerHTML = `<img src="${src}" alt="${nombre}"><p>${nombre}</p>`;
-    galeria.appendChild(div);
-  }
-  
-  // BUSCADOR EN TIEMPO REAL
-  // BUSCADOR EN TIEMPO REAL
-  const buscador = document.getElementById("buscador");
-  
-  buscador.addEventListener("input", function () {
-  const texto = this.value.toLowerCase();
-  
-  // Si el buscador está vacío → volver a la sección anterior y borrar resultados
-  if (texto.trim() === "") {
-    const resultados = document.getElementById("busquedaResultados");
-    if (resultados) resultados.remove();
-  
-    // Restaurar HOME (o la última sección principal visible)
-    document.querySelectorAll(".seccion-extra").forEach(s => s.style.display = "none");
-    document.getElementById("home").style.display = "block";
-  
-    return; // salir y no seguir buscando
-  }
-  
-  cerrarSubmenusSecciones(); // cerramos submenus al buscar
-  
-  let seccion = document.getElementById("busquedaResultados");
-  if (!seccion) {
-    seccion = document.createElement("div");
-    seccion.id = "busquedaResultados";
-    seccion.className = "seccion";
-    document.querySelector(".contenido").appendChild(seccion);
-  }
-  
-  seccion.innerHTML = "<h2>Resultados de búsqueda</h2><div class='galeria'></div>";
-  const galeria = seccion.querySelector(".galeria");
-  
-  const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(texto));
-  
-  filtrados.forEach(p => {
-    const div = document.createElement("div");
-    div.classList.add("producto");
-    div.innerHTML = `<img src="${p.img}" alt="${p.nombre}"><p>${p.nombre}</p>`;
-    galeria.appendChild(div);
-  });
-  
-  // Ocultar todas las demás secciones mientras se buscan productos
-  document.querySelectorAll(".seccion-extra, .contenido .seccion").forEach(s => s.style.display = "none");
-  
-  
-  seccion.style.display = "block";
-  });
-  
-  
-  // MOSTRAR EXTRAS (home, ofertas, etc)
-  function mostrarExtra(seccion) {
-    cerrarSubmenusSecciones(); // cerramos submenus al cambiar de extra
-  
-    document.querySelectorAll('.seccion-extra').forEach(sec => sec.style.display = 'none');
-    document.getElementById(seccion).style.display = 'block';
-  
-    const menuLateral = document.getElementById('menuLateral');
-  
-    if(seccion === 'home') {
-      menuLateral.classList.add('abierto'); // menú abierto solo en Home
-    } else {
-      menuLateral.classList.remove('abierto'); // menú colapsado en otras secciones
-    }
-  }
-  
-  function abrirMenuHome() {
-    const menu = document.getElementById("menuLateral");
-    const home = document.getElementById("home");
-  
-    if (home.style.display === "block") {
-        menu.classList.add("activo");
-    }
-  }
-  
-  /* SLIDER HOME */
+  /* --------------------- SLIDER HOME --------------------- */
   let indiceSlide = 0;
   const slidesHome = document.querySelectorAll(".slide");
   const puntosHome = document.querySelectorAll(".punto");
   
-  function mostrarSlide(n) {
-    slidesHome.forEach((s, i) => {
-      s.classList.toggle("activo", i === n);
-      puntosHome[i].classList.toggle("activo", i === n);
+  function mostrarSlide(n){
+    slidesHome.forEach((s,i)=>{
+      s.classList.toggle("activo", i===n);
+      puntosHome[i].classList.toggle("activo", i===n);
     });
   }
   
-  function siguienteSlide() {
-    indiceSlide = (indiceSlide + 1) % slidesHome.length;
+  function siguienteSlide(){
+    indiceSlide = (indiceSlide +1) % slidesHome.length;
     mostrarSlide(indiceSlide);
   }
   
-  setInterval(siguienteSlide, 3000);
-  
-  puntosHome.forEach((p, i) => {
-    p.addEventListener("click", () => {
-      indiceSlide = i;
-      mostrarSlide(indiceSlide);
-    });
-  });
-  
+  setInterval(siguienteSlide,3000);
+  puntosHome.forEach((p,i)=>p.addEventListener("click", ()=>{indiceSlide=i; mostrarSlide(i);}));
   mostrarSlide(indiceSlide);
   
-  window.addEventListener("resize", () => {
-    if (window.innerWidth > 800) {
-      document.querySelectorAll(".menu .submenu").forEach(s => {
-          s.classList.remove("activo");
-          s.style.display = "none";
+  /* --------------------- ALTURA HEADER --------------------- */
+  function actualizarAlturaHeader(){
+    const header = document.querySelector(".topbar");
+    document.documentElement.style.setProperty("--alturaHeader", header.offsetHeight+"px");
+  }
+  window.addEventListener("load", actualizarAlturaHeader);
+  window.addEventListener("resize", actualizarAlturaHeader);
+  
+  /* --------------------- CARGAR CATEGORÍAS --------------------- */
+  async function cargarCategorias(){
+    try{
+      const res = await fetch(`${API}?action=categorias`);
+      const categorias = await res.json();
+      let html="";
+      categorias.forEach(cat=>{
+        html+=`<li onclick="cargarSubcategorias(${cat.id})">${cat.nombre}</li>`;
       });
-    }
-  });
-  
-  
-    // Toggle menú lateral
-    function toggleMenu() {
-      document.getElementById('menuLateral').classList.toggle('activo');
-    }
-  
-    // Mostrar sección lateral
-    // Mostrar sección lateral (renombrada para no romper productos)
-  function mostrarLateral(nombreSeccion) {
-    document.querySelectorAll('#lateral-secciones .seccion').forEach(s => s.style.display = 'none');
-  
-    const seccion = document.getElementById(nombreSeccion);
-    if (seccion) seccion.style.display = 'block';
+      document.getElementById("listaCategorias").innerHTML = html;
+    }catch(err){console.error(err);}
   }
   
+  /* --------------------- CARGAR SUBCATEGORÍAS --------------------- */
+  async function cargarSubcategorias(categoria_id){
+    try{
+      const res = await fetch(`${API}?action=subcategorias&categoria_id=${categoria_id}`);
+      const subcategorias = await res.json();
+      let html="";
+      subcategorias.forEach(sub=>{
+        html+=`<li onclick="cargarProductos(${sub.id})">${sub.nombre}</li>`;
+      });
+      document.getElementById("listaSubcategorias").innerHTML = html;
+      document.getElementById("listaProductos").innerHTML="";
+    }catch(err){console.error(err);}
+  }
   
-    // Mostrar sección principal (Home, Ofertas, Novedades, Destacados, Contacto)
-    function mostrarExtra(nombreSeccion) {
-      // Oculta todas las secciones-extra
-      document.querySelectorAll('.seccion-extra').forEach(s => s.style.display = 'none');
-      const seccion = document.getElementById(nombreSeccion);
-      if (seccion) seccion.style.display = 'block';
+  /* --------------------- CARGAR PRODUCTOS --------------------- */
+  async function cargarProductos(subcategoria_id){
+    try{
+      const res = await fetch(`${API}?action=productos&subcategoria_id=${subcategoria_id}`);
+      const productos = await res.json();
+      let html="";
+      productos.forEach(p=>{
+        html+=`
+        <div class="producto">
+          <img src="${p.imagen||'placeholder.jpg'}">
+          <h3>${p.nombre}</h3>
+          <p>${p.descripcion||''}</p>
+          <strong>$${p.precio}</strong>
+        </div>`;
+      });
+      document.getElementById("listaProductos").innerHTML = html;
+    }catch(err){console.error(err);}
+  }
   
-      // Cierra todas las secciones laterales cuando se cambia la sección principal
-      document.querySelectorAll('#lateral-secciones .seccion').forEach(s => s.style.display = 'none');
+  /* --------------------- BUSCADOR --------------------- */
+  const buscador = document.getElementById("buscador");
+
+  buscador.addEventListener("input", async function () {
+      const texto = this.value.trim();
+      const seccion = document.getElementById("busquedaResultados");
   
-      // Cierra todos los submenús del lateral
-      document.querySelectorAll('.submenu').forEach(s => s.classList.remove('activo'));
-    }
+      if(texto === ""){
+          // limpiar resultados y mostrar home
+          if(seccion) seccion.remove();
+          document.querySelectorAll(".seccion-extra").forEach(s => s.style.display = "none");
+          document.getElementById("home").style.display = "block";
+          return;
+      }
   
-    // Filtrar secciones laterales
-    function filterSections(valor) {
-      const busqueda = valor.toLowerCase();
-      document.querySelectorAll('#lateral-secciones .seccion').forEach(s => {
-        if (s.id.toLowerCase().includes(busqueda)) {
-          s.style.display = 'block';
-        } else {
-          s.style.display = 'none';
-        }
+      cerrarSubmenusSecciones();
+  
+      // Crear sección resultados si no existe
+      let resultados = seccion;
+      if(!resultados){
+          resultados = document.createElement("div");
+          resultados.id = "busquedaResultados";
+          resultados.className = "seccion";
+          document.querySelector(".contenido").appendChild(resultados);
+      }
+  
+      resultados.innerHTML = "<h2>Resultados de búsqueda</h2><div class='galeria'></div>";
+      const galeria = resultados.querySelector(".galeria");
+  
+      // fetch productos desde BD
+      const res = await fetch(`http://localhost/celsius/api.php?action=buscar&texto=${encodeURIComponent(texto)}`);
+      const productos = await res.json();
+  
+      galeria.innerHTML = ""; // limpiar galería
+  
+      productos.forEach(p => {
+          const div = document.createElement("div");
+          div.classList.add("producto");
+          div.innerHTML = `
+              <img src="${p.imagen || 'placeholder.jpg'}" alt="${p.nombre}">
+              <p>${p.nombre}</p>
+              <p>${p.descripcion || ''}</p>
+              <strong>$${p.precio}</strong>
+          `;
+          galeria.appendChild(div);
       });
   
-      // Opcional: cerrar submenús
-      document.querySelectorAll('.submenu').forEach(s => s.classList.remove('activo'));
-    }
+      // ocultar otras secciones
+      document.querySelectorAll(".seccion-extra, .contenido .seccion").forEach(s => {
+          if(s.id !== "busquedaResultados") s.style.display = "none";
+      });
   
-    // Abrir Home al cargar
-    function abrirMenuHome() {
-      mostrarExtra('home');
-    }
+      resultados.style.display = "block";
+  });
   
+  /* --------------------- FUNCIONES ADICIONALES --------------------- */
+  function mostrarExtra(nombreSeccion){
+    cerrarSubmenusSecciones();
+    document.querySelectorAll('.seccion-extra').forEach(s=>s.style.display='none');
+    const seccion=document.getElementById(nombreSeccion);
+    if(seccion) seccion.style.display='block';
+    document.querySelectorAll('#lateral-secciones .seccion').forEach(s=>s.style.display='none');
+  }
+  
+  function filterSections(valor){
+    const busqueda=valor.toLowerCase();
+    document.querySelectorAll('#lateral-secciones .seccion').forEach(s=>{
+      s.style.display = s.id.toLowerCase().includes(busqueda)?'block':'none';
+    });
+    document.querySelectorAll('.submenu').forEach(s=>s.classList.remove('activo'));
+  }
+  
+  /* --------------------- INICIO --------------------- */
+  cargarCategorias();
+  mostrarExtra('home');
   
   </script>
+  
