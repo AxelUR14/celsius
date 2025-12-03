@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Celsius</title>
+
+<style>
+  /* ------------------------------------------------ */
+  /* RESETEOS GENERALES                               */
+  /* ------------------------------------------------ */
+  *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+  }
+  body{
+    background:#f2f4f7;
+    color:#000;
+    --alturaHeader:80px;
+  }
+  
+  /* ------------------------------------------------ */
+  /* TOP BAR                                          */
+  /* ------------------------------------------------ */
+  .topbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:auto;
+    background:#C8E6C9;
+    padding:10px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    z-index:2000;
+    border-bottom:2px solid #C8E6C9;
+  }
+  .logo-top img{
+    height:45px;
+    width:auto;
+    border-radius:10px;
+  }
+  .search-box{
+    display:flex;
+    gap:8px;
+    align-items:center;
+  }
+  .search-box input{
+    padding:8px;
+    width:200px;
+    border-radius:10px;
+    border:1px solid #C8E6C9;
+  }
+  .search-box .btn-search{
+    padding:8px 14px;
+    border-radius:10px;
+    border:none;
+    background:#C8E6C9;
+    cursor:pointer;
+  }
+  .telefono-box{
+    font-size:17px;
+    font-weight:bold;
+  }
+  
+  /* ------------------------------------------------ */
+  /* MENU SUPERIOR (HOME – OFERTAS – ETC)             */
+  /* ------------------------------------------------ */
+  .menu-top-bar{
+    position:fixed;
+    top:var(--alturaHeader);
+    left:0;
+    width:100%;
+    background:#fff;
+    padding:10px;
+    display:flex;
+    gap:8px;
+    justify-content:center;
+    border-bottom:2px solid #C8E6C9;
+    z-index:1500;
+  }
+  .menu-top-bar button{
+    padding:8px 12px;
+    border-radius:10px;
+    border:none;
+    background:#C8E6C9;
+    cursor:pointer;
+  }
+  
+  /* ------------------------------------------------ */
+  /* MENÚ LATERAL                                     */
+  /* ------------------------------------------------ */
+  .menu{
+    position:fixed;
+    top:calc(var(--alturaHeader) + 50px);
+    left:0;
+    width:240px;
+    height:calc(100% - var(--alturaHeader) - 50px);
+    background:#C8E6C9;
+    box-shadow:2px 0 6px rgba(0,0,0,0.1);
+    padding:10px;
+    overflow-y:auto;
+    z-index:1500;
+    transition: all 0.3s;
+  }
+  .menu h1{
+    font-size:20px;
+    margin-bottom:10px;
+  }
+  .menu button{
+    width:100%;
+    padding:10px;
+    background:white;
+    border:none;
+    margin-bottom:8px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+    text-align:left;
+  }
+  
+  /* Submenús tipo acordeón */
+  .submenu{
+    display:none; /* oculto por defecto */
+    padding-left:15px;
+    position: relative; /* dentro del flujo normal */
+  }
+  .submenu button{
+    width:100%;
+    background:#ddd;
+    margin-top:5px;
+    font-size:15px;
+    text-align:left;
+  }
+  .submenu.activo{
+    display:block; /* se expande correctamente */
+  }
+  
+  /* ------------------------------------------------ */
+  /* CONTENIDO GENERAL                                */
+  /* ------------------------------------------------ */
+  .contenido{
+    background: transparent !important;
+    position: relative !important;
+    z-index: 1 !important;
+    margin-top:calc(var(--alturaHeader) + 70px);
+    padding:20px;
+  }
+  .seccion, .seccion-extra{
+    background: transparent !important;
+    position: relative !important;
+    z-index: 1 !important;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  
+  /* Galería de productos */
+  .galeria{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+  }
+  .producto{
+    width:150px;
+    background:#fff;
+    padding:10px;
+    border-radius:10px;
+    box-shadow:0 0 5px rgba(0,0,0,0.2);
+    text-align:center;
+  }
+  .producto img{
+    width:100%;
+    border-radius:10px;
+  }
+  
+  /* SLIDER HOME */
+  .slider-contenedor{
+    width:100%;
+    max-width:600px;
+    margin:0 auto;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+  .slide{
+    display:none;
+    width:100%;
+  }
+  .slide.activo{
+    display:block;
+  }
+  .slide img{
+    width:100%;
+    height:auto;
+    display:block;
+  }
+  .puntos{
+    position:absolute;
+    bottom:10px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:5px;
+    z-index:10;
+  }
+  .punto{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:#999;
+    cursor:pointer;
+  }
+  .punto.activo{
+    background:#333;
+  }
+  
+  /* ------------------------------------------------ */
+  /* RESPONSIVE MOVIL                                 */
+  /* ------------------------------------------------ */
+  @media(max-width:800px){
+    .menu{
+      width:200px;
+      left:-240px; /* oculto por defecto */
+    }
+    .menu.activo{
+      left:0;
+    }
+    .contenido{
+      margin-left:0;
+      padding:10px;
+    }
+    .slider-contenedor{
+      max-width:100%;
+    }
+    .producto{
+      width:45%;
+    }
+    .search-box input{
+      width:120px;
+    }
+    .menu-top-bar{
+      flex-wrap:wrap;
+    }
+    .topbar{
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:5px;
+    }
+    .logo-top img{
+      height:40px;
+    }
+    .telefono-box{
+      width:100%;
+      text-align:center;
+      margin-top:5px;
+      font-size:15px;
+    }
+    .menu button{
+      font-size:14px;
+      padding:8px;
+    }
+    .submenu button{
+      font-size:13px;
+      padding:6px;
+    }
+    /* Submenú móvil */
+    .submenu{
+      background:#dcdcdc;
+      border-radius:8px;
+      padding:10px;
+      display:none;
+    }
+    .submenu.activo{
+      display:block;
+    }
+  }
+  
+  /* En PC (>800px) el contenido se corre a la derecha del menú */
+  @media(min-width:801px){
+    .contenido{
+      margin-left:260px;
+      margin-top:calc(var(--alturaHeader) + 70px);
+    }
+    .menu{
+      left:0;
+    }
+  }
+  #menuLateral, #menuSubcategorias {
+    width: 220px;
+    background: #1f5a19;
+    color: #fff;
+    padding: 10px;
+    float: left;
+}
+
+#menuLateral ul, #menuSubcategorias ul {
+    list-style: none;
+    padding: 0;
+}
+
+#menuLateral li, #menuSubcategorias li {
+    padding: 8px;
+    cursor: pointer;
+    background: #68ddbd;
+    margin-bottom: 5px;
+    border-radius: 4px;
+}
+
+#menuLateral li:hover, #menuSubcategorias li:hover {
+    background: #444;
+}
+
+#contenidoProductos {
+    margin-left: 460px; /* ancho de ambos menús */
+    padding: 20px;
+}
+
+.producto {
+    display: inline-block;
+    width: 180px;
+    background: #f5f5f5;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.producto img {
+    width: 100%;
+    height: auto;
+}
+.submenu {
+    display: none;  /* oculto por defecto */
+    margin-left: 15px;
+}
+.submenu.activo {
+    display: block;
+}
+
+  /* ====== FIX DEFINITIVO: SECCIONES OCULTAS POR DEFECTO ====== */
+
+
+
+  
+</style>
+<body>
+  
+<!-- MENÚ LATERAL -->
+<!--<div id="menuLateral">
+  <h2>Categorías</h2>
+  <ul id="listaCategorias"></ul>
+</div>
+
+<!-SUBMENÚ 
+<div id="menuSubcategorias">
+  <h2>Subcategorías</h2>
+  <ul id="listaSubcategorias"></ul>
+</div>
+
+ PRODUCTOS 
+<div id="contenidoProductos">
+  <h2>Productos</h2>
+  <div id="listaProductos"></div>
+</div>-->
+
+
+
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="logo-top">
+        <img src="logo.jpeg" alt="Logo">
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="buscador" placeholder="Buscar productos..." oninput="buscarProductos()">
+        <button class="btn-search" onclick="buscarProductos()">🔍</button>
+    </div>
+
+    <div class="telefono-box">
+        📞 351 203-0466
+    </div>
+</div>
+
+<!-- MENU SUPERIOR -->
+<div class="menu-top-bar">
+    <button onclick="toggleMenu()">☰ Categorías</button>
+    <button onclick="mostrarExtra('home')">Home</button>
+    <button onclick="mostrarExtra('ofertas')">Ofertas</button>
+    <button onclick="mostrarExtra('novedades')">Novedades</button>
+    <button onclick="mostrarExtra('destacados')">Destacados</button>
+    <button onclick="mostrarExtra('contacto')">Contacto</button>
+</div>
+
+<!-- MENÚ LATERAL -->
+<div class="menu abierto" id="menuLateral">
+    <h1>Categorías</h1>
+    <div id="menus">
+        <!-- Cada botón de menú principal + contenedor de submenú -->
+        <div class="menu-principal">
+            <button onclick="toggleMenuPrincipal(this)" data-id="1">Audio ▼</button>
+            <div class="submenu" data-id-menu="1"></div>
+        </div>
+
+        <div class="menu-principal">
+            <button onclick="toggleMenuPrincipal(this)" data-id="2">Electricidad ▼</button>
+            <div class="submenu" data-id-menu="2"></div>
+        </div>
+
+        <div class="menu-principal">
+            <button onclick="toggleMenuPrincipal(this)" data-id="3">Electronica ▼</button>
+            <div class="submenu" data-id-menu="3"></div>
+        </div>
+
+        <div class="menu-principal">
+            <button onclick="toggleMenuPrincipal(this)" data-id="4">Iluminación ▼</button>
+            <div class="submenu" data-id-menu="4"></div>
+        </div>
+
+        <div class="menu-principal">
+            <button onclick="toggleMenuPrincipal(this)" data-id="5">Instrumental ▼</button>
+            <div class="submenu" data-id-menu="5"></div>
+        </div>
+
+        <div class="menu-principal">
+            <button onclick="toggleMenuPrincipal(this)" data-id="6">Seguridad ▼</button>
+            <div class="submenu" data-id-menu="6"></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- CONTENIDO -->
+<div class="contenido">
+    <div id="home" class="seccion-extra home activa" style="display:block;">
+        <div class="slider-contenedor">
+            <!-- Aquí tus slides -->
+        </div>
+    </div>
+
+    <div id="ofertas" class="seccion-extra" style="display:none;">
+        <h2>Ofertas</h2>
+        <div class="slider-contenedor">
+            <div class="slide activo"><img src="ofertas/oferta1.jpeg" alt="Oferta 1"></div>
+            <div class="slide"><img src="ofertas/oferta2.jpeg" alt="Oferta 2"></div>
+            <div class="slide"><img src="ofertas/oferta3.jpeg" alt="Oferta 3"></div>
+            <div class="puntos">
+                <span class="punto activo" onclick="cambiarSlideExtra(0, 'ofertas')"></span>
+                <span class="punto" onclick="cambiarSlideExtra(1, 'ofertas')"></span>
+                <span class="punto" onclick="cambiarSlideExtra(2, 'ofertas')"></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="novedades" class="seccion-extra" style="display:none;">
+        <h2>Novedades</h2>
+        <div class="slider-contenedor">
+            <div class="slide activo"><img src="novedades/novedad1.jpeg" alt="Novedad 1"></div>
+            <div class="slide"><img src="novedades/novedad2.jpeg" alt="Novedad 2"></div>
+            <div class="slide"><img src="novedades/novedad3.jpeg" alt="Novedad 3"></div>
+            <div class="puntos">
+                <span class="punto activo" onclick="cambiarSlideExtra(0, 'novedades')"></span>
+                <span class="punto" onclick="cambiarSlideExtra(1, 'novedades')"></span>
+                <span class="punto" onclick="cambiarSlideExtra(2, 'novedades')"></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="destacados" class="seccion-extra" style="display:none;">
+        <h2>Destacados</h2>
+        <div class="slider-contenedor">
+            <div class="slide activo"><img src="destacados/destacado1.jpeg" alt="Destacado 1"></div>
+            <div class="slide"><img src="destacados/destacado2.jpeg" alt="Destacado 2"></div>
+            <div class="slide"><img src="destacados/destacado3.jpeg" alt="Destacado 3"></div>
+            <div class="puntos">
+                <span class="punto activo" onclick="cambiarSlideExtra(0, 'destacados')"></span>
+                <span class="punto" onclick="cambiarSlideExtra(1, 'destacados')"></span>
+                <span class="punto" onclick="cambiarSlideExtra(2, 'destacados')"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR DE PRODUCTOS -->
+    <div id="productos"></div>
+</div>
+<!-- JAVASCRIPT -->
+<script>
+/* --------------------- MENÚ LATERAL DINÁMICO --------------------- */
+async function cargarSubmenus() {
+    try {
+        const resMenus = await fetch(`api.php?action=menus`);
+        const menus = await resMenus.json();
+
+        const cont = document.getElementById("menus"); // <-- tu contenedor real es "menus"
+        cont.innerHTML = "";
+
+        for (const menu of menus) {
+            // Contenedor del menú principal + submenús
+            const menuDiv = document.createElement("div");
+            menuDiv.classList.add("menu-principal");
+
+            // Botón del menú principal
+            const btnMenu = document.createElement("button");
+            btnMenu.textContent = menu.nombre + " ▼";
+            btnMenu.onclick = () => toggleMenuPrincipal(btnMenu);
+
+            // Contenedor de submenús
+            const divSubmenus = document.createElement("div");
+            divSubmenus.classList.add("submenu");
+
+            // Cargar submenús desde BD
+            const resSub = await fetch(`api.php?action=submenus&id_menu=${menu.id}`);
+            const subs = await resSub.json();
+
+            for (const s of subs) {
+                const btnSub = document.createElement("button");
+                btnSub.textContent = s.nombre;
+                btnSub.onclick = () => cargarProductos(s.id);
+                divSubmenus.appendChild(btnSub);
+            }
+
+            // Añadir botón y submenús al contenedor del menú
+            menuDiv.appendChild(btnMenu);
+            menuDiv.appendChild(divSubmenus);
+
+            // Añadir todo al contenedor principal
+            cont.appendChild(menuDiv);
+        }
+
+    } catch (err) {
+        console.error("Error al cargar menús y submenús:", err);
+    }
+}
+window.addEventListener("load", cargarSubmenus);
+
+
+/* --------------------- TOGGLE MENU LATERAL --------------------- */
+function toggleMenu() {
+    document.getElementById("menuLateral").classList.toggle("activo");
+}
+
+function toggleMenuPrincipal(boton) {
+    const submenu = boton.nextElementSibling;
+    document.querySelectorAll("#menuLateral .submenu").forEach(s => {
+        if (s !== submenu) {
+            s.classList.remove("activo");
+            s.style.display = "none";
+        }
+    });
+    submenu.classList.toggle("activo");
+    submenu.style.display = submenu.classList.contains("activo") ? "block" : "none";
+}
+
+
+/* --------------------- BUSCADOR --------------------- */
+async function buscarProductos() {
+    const texto = document.getElementById("buscador").value.trim();
+    const cont = document.getElementById("productos");
+
+    if (texto.length < 1) {
+        cont.innerHTML = "";
+        return;
+    }
+
+    try {
+        const res = await fetch(`api.php?action=buscar&texto=${encodeURIComponent(texto)}`);
+        const productos = await res.json();
+        cargarProductosBuscador(productos);
+    } catch (err) {
+        console.error("Error en búsqueda:", err);
+    }
+}
+
+function cargarProductosBuscador(productos) {
+    const cont = document.getElementById("productos");
+    cont.innerHTML = "";
+
+    if (productos.length === 0) {
+        cont.innerHTML = "<p>No se encontraron productos</p>";
+        return;
+    }
+
+    productos.forEach(p => {
+        cont.innerHTML += `
+            <div class="producto">
+                <h3>${p.nombre}</h3>
+                <p>${p.descripcion}</p>
+                <p><strong>$${p.precio}</strong></p>
+                <img src="${p.imagen}" alt="${p.nombre}">
+            </div>
+        `;
+    });
+}
+
+
+/* --------------------- FUNCIONES DE NAVEGACIÓN --------------------- */
+function mostrarExtra(id) {
+    // Ocultar todas las secciones
+    document.querySelectorAll(".seccion-extra").forEach(sec => sec.style.display = "none");
+    const seccion = document.getElementById(id);
+    if (seccion) seccion.style.display = "block";
+
+    // Cerrar submenús del lateral
+    cerrarSubmenusSecciones();
+
+    // Limpiar resultados del buscador al cambiar de sección
+    document.getElementById("productos").innerHTML = "";
+}
+
+function cerrarSubmenusSecciones() {
+    document.querySelectorAll("#menuLateral .submenu").forEach(s => {
+        s.classList.remove("activo");
+        s.style.display = "none";
+    });
+}
+
+
+/* --------------------- SLIDER HOME --------------------- */
+let indiceSlide = 0;
+const slidesHome = document.querySelectorAll(".slide");
+const puntosHome = document.querySelectorAll(".punto");
+
+function mostrarSlide(n) {
+    slidesHome.forEach((s, i) => s.classList.toggle("activo", i === n));
+    puntosHome.forEach((p, i) => p.classList.toggle("activo", i === n));
+}
+
+function siguienteSlide() {
+    indiceSlide = (indiceSlide + 1) % slidesHome.length;
+    mostrarSlide(indiceSlide);
+}
+
+setInterval(siguienteSlide, 3000);
+puntosHome.forEach((p, i) => p.addEventListener("click", () => { indiceSlide = i; mostrarSlide(i); }));
+mostrarSlide(indiceSlide);
+
+
+/* --------------------- AJUSTE HEADER --------------------- */
+function actualizarAlturaHeader() {
+    const header = document.querySelector(".topbar");
+    document.documentElement.style.setProperty("--alturaHeader", header.offsetHeight + "px");
+}
+window.addEventListener("load", actualizarAlturaHeader);
+window.addEventListener("resize", actualizarAlturaHeader);
+
+
+/* --------------------- CARGAR PRODUCTOS --------------------- */
+async function cargarProductos(idSubmenu) {
+    try {
+        const res = await fetch(`api.php?action=productos&id_submenu=${idSubmenu}`);
+        const productos = await res.json();
+        mostrarProductos(productos);
+        document.getElementById("productos").scrollIntoView({ behavior: "smooth" });
+    } catch (error) {
+        console.error("Error al cargar productos:", error);
+    }
+}
+
+function mostrarProductos(productos) {
+    const cont = document.getElementById("productos");
+    cont.innerHTML = "";
+    if (productos.length === 0) {
+        cont.innerHTML = "<p>No se encontraron productos</p>";
+        return;
+    }
+    productos.forEach(p => {
+        cont.innerHTML += `
+            <div class="producto">
+                <h3>${p.nombre}</h3>
+                <p>${p.descripcion}</p>
+                <p><strong>$${p.precio}</strong></p>
+                <img src="${p.imagen}" alt="${p.nombre}">
+            </div>
+        `;
+    });
+}
+</script>

@@ -1,56 +1,49 @@
 <?php
 header('Content-Type: application/json');
-include 'conexion.php';
+require "conexion.php";
 
 $action = $_GET['action'] ?? '';
 
 switch($action) {
 
-    // CATEGORÍAS
-    case 'categorias':
-        $res = $conexion->query("SELECT id, nombre FROM categorias");
-        $cats = [];
-        while($row = $res->fetch_assoc()){
-            $cats[] = $row;
-        }
-        echo json_encode($cats);
+    // MENÚS PRINCIPALES
+    case 'menus':
+        $res = $conexion->query("SELECT id, nombre FROM menus ORDER BY nombre ASC");
+        $data = [];
+        while($row = $res->fetch_assoc()){ $data[] = $row; }
+        echo json_encode($data);
         break;
 
-    // SUBCATEGORÍAS
-    case 'subcategorias':
-        $cat_id = intval($_GET['categoria_id'] ?? 0);
-        $res = $conexion->query("SELECT id, nombre FROM subcategorias WHERE categoria_id=$cat_id");
-        $subs = [];
-        while($row = $res->fetch_assoc()){
-            $subs[] = $row;
-        }
-        echo json_encode($subs);
+    // SUBMENÚS POR MENÚ
+    case 'submenus':
+        $id_menu = intval($_GET['id_menu'] ?? 0);
+        $res = $conexion->query("SELECT id, nombre FROM submenus WHERE id_menu = $id_menu");
+        $data = [];
+        while($row = $res->fetch_assoc()){ $data[] = $row; }
+        echo json_encode($data);
         break;
 
-    // PRODUCTOS POR SUBCATEGORÍA
+    // PRODUCTOS POR SUBMENÚ
     case 'productos':
-        $sub_id = intval($_GET['subcategoria_id'] ?? 0);
-        $res = $conexion->query("SELECT id, nombre, descripcion, precio, imagen FROM productos WHERE subcategoria_id=$sub_id");
-        $prods = [];
-        while($row = $res->fetch_assoc()){
-            $prods[] = $row;
-        }
-        echo json_encode($prods);
+        $id_submenu = intval($_GET['id_submenu'] ?? 0);
+        $res = $conexion->query("SELECT * FROM productos WHERE id_submenu = $id_submenu");
+        $data = [];
+        while($row = $res->fetch_assoc()){ $data[] = $row; }
+        echo json_encode($data);
         break;
 
     // BUSCADOR
     case 'buscar':
         $texto = $conexion->real_escape_string($_GET['texto'] ?? '');
-        $res = $conexion->query("SELECT id, nombre, descripcion, precio, imagen FROM productos WHERE nombre LIKE '%$texto%'");
-        $prods = [];
-        while($row = $res->fetch_assoc()){
-            $prods[] = $row;
-        }
-        echo json_encode($prods);
+        $res = $conexion->query("SELECT * FROM productos WHERE nombre LIKE '%$texto%'");
+        $data = [];
+        while($row = $res->fetch_assoc()){ $data[] = $row; }
+        echo json_encode($data);
         break;
 
+    // DEFAULT
     default:
-        echo json_encode([]);
+        echo json_encode(["error"=>"acción no válida"]);
         break;
 }
 ?>
