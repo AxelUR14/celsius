@@ -492,193 +492,160 @@
 </div>
 <!-- JAVASCRIPT -->
 <script>
-/* --------------------- MENÚ LATERAL DINÁMICO --------------------- */
-async function cargarSubmenus() {
+  /* --------------------- URLS DE LA API --------------------- */
+  // Ajusta la base a la raíz que ngrok expone (sin /pagina-celsius)
+  const API_BASE      = "https://suprarational-vinita-inapplicably.ngrok-free.dev/";
+  const API_CATEGORIAS = API_BASE + "get_categorias.php";
+  const API_SUBMENUS   = API_BASE + "get_submenus.php";
+  const API_PRODUCTOS  = API_BASE + "get_productos.php";
+
+  /* --------------------- MENÚ LATERAL DINÁMICO --------------------- */
+  window.addEventListener("DOMContentLoaded", () => {
+    cargarSubmenus();
+  });
+
+  async function cargarSubmenus() {
     try {
-        const resMenus = await fetch(`api.php?action=menus`);
-        const menus = await resMenus.json();
+      const resMenus = await fetch(API_CATEGORIAS);
+      const menus = await resMenus.json();
+      const cont = document.getElementById("menus");
+      cont.innerHTML = "";
 
-        const cont = document.getElementById("menus"); // <-- tu contenedor real es "menus"
-        cont.innerHTML = "";
+      if (!menus || menus.length === 0) return;
 
-        for (const menu of menus) {
-            // Contenedor del menú principal + submenús
-            const menuDiv = document.createElement("div");
-            menuDiv.classList.add("menu-principal");
+      for (const menu of menus) {
+        const menuDiv = document.createElement("div");
+        menuDiv.classList.add("menu-principal");
 
-            // Botón del menú principal
-            const btnMenu = document.createElement("button");
-            btnMenu.textContent = menu.nombre + " ▼";
-            btnMenu.onclick = () => toggleMenuPrincipal(btnMenu);
+        const btnMenu = document.createElement("button");
+        btnMenu.textContent = menu.nombre + " ▼";
+        btnMenu.addEventListener("click", () => toggleMenuPrincipal(btnMenu));
 
-            // Contenedor de submenús
-            const divSubmenus = document.createElement("div");
-            divSubmenus.classList.add("submenu");
+        const divSubmenus = document.createElement("div");
+        divSubmenus.classList.add("submenu");
 
-            // Cargar submenús desde BD
-            const resSub = await fetch(`api.php?action=submenus&id_menu=${menu.id}`);
-            const subs = await resSub.json();
+        // Traer submenús
+        const resSub = await fetch(`${API_SUBMENUS}?id_menu=${menu.id}`);
+        const subs = await resSub.json();
 
-            for (const s of subs) {
-                const btnSub = document.createElement("button");
-                btnSub.textContent = s.nombre;
-                btnSub.onclick = () => cargarProductos(s.id);
-                divSubmenus.appendChild(btnSub);
-            }
-
-            // Añadir botón y submenús al contenedor del menú
-            menuDiv.appendChild(btnMenu);
-            menuDiv.appendChild(divSubmenus);
-
-            // Añadir todo al contenedor principal
-            cont.appendChild(menuDiv);
+        if (subs && subs.length > 0) {
+          for (const s of subs) {
+            const btnSub = document.createElement("button");
+            btnSub.textContent = s.nombre;
+            btnSub.addEventListener("click", () => cargarProductos(s.id));
+            divSubmenus.appendChild(btnSub);
+          }
         }
+
+        menuDiv.appendChild(btnMenu);
+        menuDiv.appendChild(divSubmenus);
+        cont.appendChild(menuDiv);
+      }
 
     } catch (err) {
-        console.error("Error al cargar menús y submenús:", err);
+      console.error("Error al cargar menús y submenús:", err);
     }
-}
-window.addEventListener("load", cargarSubmenus);
+  }
 
-
-/* --------------------- TOGGLE MENU LATERAL --------------------- */
-function toggleMenu() {
+  /* --------------------- TOGGLE MENU LATERAL --------------------- */
+  function toggleMenu() {
     document.getElementById("menuLateral").classList.toggle("activo");
-}
+  }
 
-function toggleMenuPrincipal(boton) {
+  function toggleMenuPrincipal(boton) {
     const submenu = boton.nextElementSibling;
     document.querySelectorAll("#menuLateral .submenu").forEach(s => {
-        if (s !== submenu) {
-            s.classList.remove("activo");
-            s.style.display = "none";
-        }
+      if (s !== submenu) {
+        s.classList.remove("activo");
+        s.style.display = "none";
+      }
     });
     submenu.classList.toggle("activo");
     submenu.style.display = submenu.classList.contains("activo") ? "block" : "none";
-}
+  }
 
-
-/* --------------------- BUSCADOR --------------------- */
-async function buscarProductos() {
+  /* --------------------- BUSCADOR --------------------- */
+  async function buscarProductos() {
     const texto = document.getElementById("buscador").value.trim();
     const cont = document.getElementById("productos");
-
     if (texto.length < 1) {
-        cont.innerHTML = "";
-        return;
+      cont.innerHTML = "";
+      return;
     }
-
     try {
-        const res = await fetch(`api.php?action=buscar&texto=${encodeURIComponent(texto)}`);
-        const productos = await res.json();
-        cargarProductosBuscador(productos);
+      const res = await fetch(`${API_PRODUCTOS}?texto=${encodeURIComponent(texto)}`);
+      const productos = await res.json();
+      mostrarProductos(productos);
     } catch (err) {
-        console.error("Error en búsqueda:", err);
+      console.error("Error en búsqueda:", err);
     }
-}
+  }
 
-function cargarProductosBuscador(productos) {
-    const cont = document.getElementById("productos");
-    cont.innerHTML = "";
-
-    if (productos.length === 0) {
-        cont.innerHTML = "<p>No se encontraron productos</p>";
-        return;
-    }
-
-    productos.forEach(p => {
-        cont.innerHTML += `
-            <div class="producto">
-                <h3>${p.nombre}</h3>
-                <p>${p.descripcion}</p>
-                <p><strong>$${p.precio}</strong></p>
-                <img src="${p.imagen}" alt="${p.nombre}">
-            </div>
-        `;
-    });
-}
-
-
-/* --------------------- FUNCIONES DE NAVEGACIÓN --------------------- */
-function mostrarExtra(id) {
-    // Ocultar todas las secciones
+  /* --------------------- FUNCIONES DE NAVEGACIÓN --------------------- */
+  function mostrarExtra(id) {
     document.querySelectorAll(".seccion-extra").forEach(sec => sec.style.display = "none");
     const seccion = document.getElementById(id);
     if (seccion) seccion.style.display = "block";
-
-    // Cerrar submenús del lateral
     cerrarSubmenusSecciones();
-
-    // Limpiar resultados del buscador al cambiar de sección
     document.getElementById("productos").innerHTML = "";
-}
+  }
 
-function cerrarSubmenusSecciones() {
+  function cerrarSubmenusSecciones() {
     document.querySelectorAll("#menuLateral .submenu").forEach(s => {
-        s.classList.remove("activo");
-        s.style.display = "none";
+      s.classList.remove("activo");
+      s.style.display = "none";
     });
-}
+  }
 
+  /* --------------------- SLIDER HOME --------------------- */
+  let indiceSlide = 0;
+  function siguienteSlide() {
+    const slides = document.querySelectorAll(".seccion-extra .slide");
+    const puntos = document.querySelectorAll(".seccion-extra .punto");
+    if (slides.length === 0) return;
+    slides.forEach((s, i) => s.classList.toggle("activo", i === indiceSlide));
+    puntos.forEach((p, i) => p.classList.toggle("activo", i === indiceSlide));
+    indiceSlide = (indiceSlide + 1) % slides.length;
+  }
+  setInterval(siguienteSlide, 3000);
 
-/* --------------------- SLIDER HOME --------------------- */
-let indiceSlide = 0;
-const slidesHome = document.querySelectorAll(".slide");
-const puntosHome = document.querySelectorAll(".punto");
-
-function mostrarSlide(n) {
-    slidesHome.forEach((s, i) => s.classList.toggle("activo", i === n));
-    puntosHome.forEach((p, i) => p.classList.toggle("activo", i === n));
-}
-
-function siguienteSlide() {
-    indiceSlide = (indiceSlide + 1) % slidesHome.length;
-    mostrarSlide(indiceSlide);
-}
-
-setInterval(siguienteSlide, 3000);
-puntosHome.forEach((p, i) => p.addEventListener("click", () => { indiceSlide = i; mostrarSlide(i); }));
-mostrarSlide(indiceSlide);
-
-
-/* --------------------- AJUSTE HEADER --------------------- */
-function actualizarAlturaHeader() {
+  /* --------------------- AJUSTE HEADER --------------------- */
+  function actualizarAlturaHeader() {
     const header = document.querySelector(".topbar");
-    document.documentElement.style.setProperty("--alturaHeader", header.offsetHeight + "px");
-}
-window.addEventListener("load", actualizarAlturaHeader);
-window.addEventListener("resize", actualizarAlturaHeader);
+    if(header) document.documentElement.style.setProperty("--alturaHeader", header.offsetHeight + "px");
+  }
+  window.addEventListener("load", actualizarAlturaHeader);
+  window.addEventListener("resize", actualizarAlturaHeader);
 
-
-/* --------------------- CARGAR PRODUCTOS --------------------- */
-async function cargarProductos(idSubmenu) {
+  /* --------------------- CARGAR PRODUCTOS --------------------- */
+  async function cargarProductos(idSubmenu) {
     try {
-        const res = await fetch(`api.php?action=productos&id_submenu=${idSubmenu}`);
-        const productos = await res.json();
-        mostrarProductos(productos);
-        document.getElementById("productos").scrollIntoView({ behavior: "smooth" });
+      const res = await fetch(`${API_PRODUCTOS}?id_submenu=${idSubmenu}`);
+      const productos = await res.json();
+      mostrarProductos(productos);
+      document.getElementById("productos").scrollIntoView({ behavior: "smooth" });
     } catch (error) {
-        console.error("Error al cargar productos:", error);
+      console.error("Error al cargar productos:", error);
     }
-}
+  }
 
-function mostrarProductos(productos) {
+  function mostrarProductos(productos) {
     const cont = document.getElementById("productos");
     cont.innerHTML = "";
-    if (productos.length === 0) {
-        cont.innerHTML = "<p>No se encontraron productos</p>";
-        return;
+    if (!productos || productos.length === 0) {
+      cont.innerHTML = "<p>No se encontraron productos</p>";
+      return;
     }
     productos.forEach(p => {
-        cont.innerHTML += `
-            <div class="producto">
-                <h3>${p.nombre}</h3>
-                <p>${p.descripcion}</p>
-                <p><strong>$${p.precio}</strong></p>
-                <img src="${p.imagen}" alt="${p.nombre}">
-            </div>
-        `;
+      const div = document.createElement("div");
+      div.classList.add("producto");
+      div.innerHTML = `
+        <h3>${p.nombre}</h3>
+        <p>${p.descripcion}</p>
+        <p><strong>$${p.precio}</strong></p>
+        <img src="${p.imagen}" alt="${p.nombre}">
+      `;
+      cont.appendChild(div);
     });
-}
+  }
 </script>

@@ -1,16 +1,21 @@
 <?php
-$host = "127.0.0.1";
-$port = 3307; // ⚠️ EL PUERTO DE TU MYSQL EN XAMPP
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-$usuario = "root";
-$pass = "";
-$bd = "celsius";
+// Conexión a la base de datos MySQL local
+$host = "localhost";
+$user = "root";       // Usuario local (XAMPP)
+$password = "";       // Contraseña local (XAMPP)
+$dbname = "celsius"; // Tu base de datos
+$port = 3307;         // Puerto donde corre MySQL
 
-$conexion = new mysqli($host, $usuario, $pass, $bd, $port);
+// Crear conexión
+$conexion = new mysqli($host, $user, $password, $dbname, $port);
 
-if ($conexion->connect_errno) {
-    die("Error de conexión: (" . $conexion->connect_errno . ") " . $conexion->connect_error);
+// Verificar conexión
+if ($conexion->connect_error) {
+    die("ERROR DE CONEXIÓN: " . $conexion->connect_error);
+} else {
+    echo "¡Conexión exitosa a la base de datos local en puerto $port!";
 }
-
-$conexion->set_charset("utf8");
 ?>
